@@ -497,7 +497,7 @@ public class WayPoint implements IPoolItem
 				wp.town_cn = 0;
 
 				wp.UpdateWaypointSign();
-				Hal.MarkWholeScreenDirty();
+				HAL.MarkWholeScreenDirty();
 			} else {
 				Global.DeleteName(str);
 			}
@@ -509,7 +509,7 @@ public class WayPoint implements IPoolItem
 
 				wp.MakeDefaultWaypointName();
 				wp.UpdateWaypointSign();
-				Hal.MarkWholeScreenDirty();
+				HAL.MarkWholeScreenDirty();
 			}
 		}
 		return 0;

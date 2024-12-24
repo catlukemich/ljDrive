@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 
 import game.GameOptions;
 import game.Global;
-import game.Hal;
+import game.HAL;
 import game.Landscape;
 import game.Sprite;
 import game.SpriteCache;
@@ -91,10 +91,10 @@ public class Gfx extends PaletteTabs
 		if (xo == 0 && yo == 0) 
 			return;
 
-		if (Hal._cursor.visible) UndrawMouseCursor();
+		if (HAL._cursor.visible) UndrawMouseCursor();
 		TextEffect.UndrawTextMessage();
 
-		p = Hal._screen.pitch;
+		p = HAL._screen.pitch;
 
 		if (yo > 0) {
 			// Calculate pointers
@@ -119,7 +119,7 @@ public class Gfx extends PaletteTabs
 
 			for (ht = height; ht > 0; --ht) {
 				//memcpy(dst, src, width);
-				System.arraycopy(Hal._screen.dst_ptr.getMem(), src, Hal._screen.dst_ptr.getMem(), dst, width);
+				System.arraycopy(HAL._screen.dst_ptr.getMem(), src, HAL._screen.dst_ptr.getMem(), dst, width);
 				src -= p;
 				dst -= p;
 			}
@@ -146,7 +146,7 @@ public class Gfx extends PaletteTabs
 			// because source and destination may overlap
 			for (ht = height; ht > 0; --ht) {
 				//memmove(dst, src, width);
-				System.arraycopy(Hal._screen.dst_ptr.getMem(), src, Hal._screen.dst_ptr.getMem(), dst, width);
+				System.arraycopy(HAL._screen.dst_ptr.getMem(), src, HAL._screen.dst_ptr.getMem(), dst, width);
 				src += p;
 				dst += p;
 			}
@@ -158,7 +158,7 @@ public class Gfx extends PaletteTabs
 
 	public static void GfxFillRect(int left, int top, int right, int bottom, int color)
 	{
-		final DrawPixelInfo  dpi = Hal._cur_dpi;
+		final DrawPixelInfo  dpi = HAL._cur_dpi;
 		Pixel dst;
 		//int dst; // index
 		final int otop = top;
@@ -220,7 +220,7 @@ public class Gfx extends PaletteTabs
 
 	static void GfxSetPixel(int x, int y, int color)
 	{
-		final DrawPixelInfo  dpi = Hal._cur_dpi;
+		final DrawPixelInfo  dpi = HAL._cur_dpi;
 		if ((x-=dpi.left) < 0 || x>=dpi.width || (y-=dpi.top)<0 || y>=dpi.height)
 			return;
 		dpi.dst_ptr.w( y * dpi.pitch + x,  (byte) color );
@@ -236,7 +236,7 @@ public class Gfx extends PaletteTabs
 
 		// Check clipping first
 		{
-			DrawPixelInfo dpi = Hal._cur_dpi;
+			DrawPixelInfo dpi = HAL._cur_dpi;
 			int t;
 
 			if (x < dpi.left && x2 < dpi.left) return;
@@ -1579,7 +1579,7 @@ public class Gfx extends PaletteTabs
 
 	static void GfxMainBlitter(final Sprite sprite, int x, int y, int mode)
 	{
-		final DrawPixelInfo  dpi = Hal._cur_dpi;
+		final DrawPixelInfo  dpi = HAL._cur_dpi;
 		int start_x, start_y;
 		byte info;
 		BlitterParams bp = new BlitterParams(dpi.dst_ptr);
@@ -1881,30 +1881,30 @@ public class Gfx extends PaletteTabs
 	public static void ScreenSizeChanged()
 	{
 		// check the dirty rect
-		if (Hal._invalid_rect.right >= Hal._screen.width) Hal._invalid_rect.right = Hal._screen.width;
-		if (Hal._invalid_rect.bottom >= Hal._screen.height) Hal._invalid_rect.bottom = Hal._screen.height;
+		if (HAL._invalid_rect.right >= HAL._screen.width) HAL._invalid_rect.right = HAL._screen.width;
+		if (HAL._invalid_rect.bottom >= HAL._screen.height) HAL._invalid_rect.bottom = HAL._screen.height;
 
 		// screen size changed and the old bitmap is invalid now, so we don't want to undraw it
-		Hal._cursor.visible = false;
+		HAL._cursor.visible = false;
 
 	}
 
 	public static void UndrawMouseCursor()
 	{
-		if (Hal._cursor.visible) {
-			Hal._cursor.visible = false;
+		if (HAL._cursor.visible) {
+			HAL._cursor.visible = false;
 			memcpy_pitch(
-					new Pixel(Hal._screen.dst_ptr, Hal._cursor.draw_pos.x + Hal._cursor.draw_pos.y * Hal._screen.pitch ),					
+					new Pixel(HAL._screen.dst_ptr, HAL._cursor.draw_pos.x + HAL._cursor.draw_pos.y * HAL._screen.pitch ),					
 					new Pixel(_cursor_backup),
 
-					Hal._cursor.draw_size.x, 
-					Hal._cursor.draw_size.y,
+					HAL._cursor.draw_size.x, 
+					HAL._cursor.draw_size.y,
 
-					Hal._cursor.draw_size.x, 
-					Hal._screen.pitch
+					HAL._cursor.draw_size.x, 
+					HAL._screen.pitch
 					);
 
-			Global.hal.make_dirty(Hal._cursor.draw_pos.x, Hal._cursor.draw_pos.y, Hal._cursor.draw_size.x, Hal._cursor.draw_size.y);
+			Global.hal.make_dirty(HAL._cursor.draw_pos.x, HAL._cursor.draw_pos.y, HAL._cursor.draw_size.x, HAL._cursor.draw_size.y);
 		}
 	}
 
@@ -1916,32 +1916,32 @@ public class Gfx extends PaletteTabs
 		int h;
 
 		// Don't draw the mouse cursor if it's already drawn
-		if (Hal._cursor.visible) {
-			if (!Hal._cursor.dirty) return;
+		if (HAL._cursor.visible) {
+			if (!HAL._cursor.dirty) return;
 			UndrawMouseCursor();
 		}
 
-		w = Hal._cursor.size.x;
-		x = Hal._cursor.pos.x + Hal._cursor.offs.x;
+		w = HAL._cursor.size.x;
+		x = HAL._cursor.pos.x + HAL._cursor.offs.x;
 		if (x < 0) {
 			w += x;
 			x = 0;
 		}
-		if (w > Hal._screen.width - x) w = Hal._screen.width - x;
+		if (w > HAL._screen.width - x) w = HAL._screen.width - x;
 		if (w <= 0) return;
-		Hal._cursor.draw_pos.x = x;
-		Hal._cursor.draw_size.x = w;
+		HAL._cursor.draw_pos.x = x;
+		HAL._cursor.draw_size.x = w;
 
-		h = Hal._cursor.size.y;
-		y = Hal._cursor.pos.y + Hal._cursor.offs.y;
+		h = HAL._cursor.size.y;
+		y = HAL._cursor.pos.y + HAL._cursor.offs.y;
 		if (y < 0) {
 			h += y;
 			y = 0;
 		}
-		if (h > Hal._screen.height - y) h = Hal._screen.height - y;
+		if (h > HAL._screen.height - y) h = HAL._screen.height - y;
 		if (h <= 0) return;
-		Hal._cursor.draw_pos.y = y;
-		Hal._cursor.draw_size.y = h;
+		HAL._cursor.draw_pos.y = y;
+		HAL._cursor.draw_size.y = h;
 
 		assert(w * h < _cursor_backup.length);
 
@@ -1949,23 +1949,23 @@ public class Gfx extends PaletteTabs
 		memcpy_pitch(
 				new Pixel( _cursor_backup ),
 				//Hal._screen.dst_ptr + Hal._cursor.draw_pos.x + Hal._cursor.draw_pos.y * Hal._screen.pitch,
-				new Pixel( Hal._screen.dst_ptr, Hal._cursor.draw_pos.x + Hal._cursor.draw_pos.y * Hal._screen.pitch ),
+				new Pixel( HAL._screen.dst_ptr, HAL._cursor.draw_pos.x + HAL._cursor.draw_pos.y * HAL._screen.pitch ),
 
-				Hal._cursor.draw_size.x, 
-				Hal._cursor.draw_size.y, 
-				Hal._screen.pitch, 
-				Hal._cursor.draw_size.x
+				HAL._cursor.draw_size.x, 
+				HAL._cursor.draw_size.y, 
+				HAL._screen.pitch, 
+				HAL._cursor.draw_size.x
 				);
 
 		//Global.debug("cursor @%d.%d", Hal._cursor.pos.x, Hal._cursor.pos.y);		
 		// Draw cursor on screen
-		Hal._cur_dpi = Hal._screen;
-		DrawSprite(Hal._cursor.sprite.id, Hal._cursor.pos.x, Hal._cursor.pos.y);
+		HAL._cur_dpi = HAL._screen;
+		DrawSprite(HAL._cursor.sprite.id, HAL._cursor.pos.x, HAL._cursor.pos.y);
 
-		Global.hal.make_dirty(Hal._cursor.draw_pos.x, Hal._cursor.draw_pos.y, Hal._cursor.draw_size.x, Hal._cursor.draw_size.y);
+		Global.hal.make_dirty(HAL._cursor.draw_pos.x, HAL._cursor.draw_pos.y, HAL._cursor.draw_size.x, HAL._cursor.draw_size.y);
 
-		Hal._cursor.visible = true;
-		Hal._cursor.dirty = false;
+		HAL._cursor.visible = true;
+		HAL._cursor.dirty = false;
 	}
 
 	private static void DbgScreenRect(int left, int top, int right, int bottom)
@@ -1973,21 +1973,21 @@ public class Gfx extends PaletteTabs
 		DrawPixelInfo dp = new DrawPixelInfo();
 		DrawPixelInfo  old;
 
-		old = Hal._cur_dpi;
-		Hal._cur_dpi = dp;
-		dp = Hal._screen;
-		GfxFillRect(left, top, right - 1, bottom - 1, Hal.Random() & 255);
-		Hal._cur_dpi = old;
+		old = HAL._cur_dpi;
+		HAL._cur_dpi = dp;
+		dp = HAL._screen;
+		GfxFillRect(left, top, right - 1, bottom - 1, HAL.Random() & 255);
+		HAL._cur_dpi = old;
 	}
 
 	static void RedrawScreenRect(int left, int top, int right, int bottom)
 	{
-		assert(right <= Hal._screen.width && bottom <= Hal._screen.height);
-		if (Hal._cursor.visible) {
-			if (right > Hal._cursor.draw_pos.x &&
-					left < Hal._cursor.draw_pos.x + Hal._cursor.draw_size.x &&
-					bottom > Hal._cursor.draw_pos.y &&
-					top < Hal._cursor.draw_pos.y + Hal._cursor.draw_size.y) {
+		assert(right <= HAL._screen.width && bottom <= HAL._screen.height);
+		if (HAL._cursor.visible) {
+			if (right > HAL._cursor.draw_pos.x &&
+					left < HAL._cursor.draw_pos.x + HAL._cursor.draw_size.x &&
+					bottom > HAL._cursor.draw_pos.y &&
+					top < HAL._cursor.draw_pos.y + HAL._cursor.draw_size.y) {
 				UndrawMouseCursor();
 			}
 		}
@@ -2006,8 +2006,8 @@ public class Gfx extends PaletteTabs
 		//int bp = 0;
 		Pixel b = new Pixel(_dirty_blocks);
 
-		final int w0 = BitOps.ALIGN(Hal._screen.width, 64);
-		final int h0 = BitOps.ALIGN(Hal._screen.height, 8);
+		final int w0 = BitOps.ALIGN(HAL._screen.width, 64);
+		final int h0 = BitOps.ALIGN(HAL._screen.height, 8);
 		int x;
 		int y;
 
@@ -2086,10 +2086,10 @@ public class Gfx extends PaletteTabs
 					left = x;
 					top = y;
 
-					if (left   < Hal._invalid_rect.left  ) left   = Hal._invalid_rect.left;
-					if (top    < Hal._invalid_rect.top   ) top    = Hal._invalid_rect.top;
-					if (right  > Hal._invalid_rect.right ) right  = Hal._invalid_rect.right;
-					if (bottom > Hal._invalid_rect.bottom) bottom = Hal._invalid_rect.bottom;
+					if (left   < HAL._invalid_rect.left  ) left   = HAL._invalid_rect.left;
+					if (top    < HAL._invalid_rect.top   ) top    = HAL._invalid_rect.top;
+					if (right  > HAL._invalid_rect.right ) right  = HAL._invalid_rect.right;
+					if (bottom > HAL._invalid_rect.bottom) bottom = HAL._invalid_rect.bottom;
 
 					if (left < right && top < bottom) {
 						//Global.debug("dirty paint l %4d t %3d r %4d b %3d",left, top, right, bottom);
@@ -2104,10 +2104,10 @@ public class Gfx extends PaletteTabs
 			b.madd( -(w0 >> 6) + DIRTY_BYTES_PER_LINE );
 		} while ((y += 8) != h0);
 
-		Hal._invalid_rect.left = w0;
-		Hal._invalid_rect.top = h0;
-		Hal._invalid_rect.right = 0;
-		Hal._invalid_rect.bottom = 0;
+		HAL._invalid_rect.left = w0;
+		HAL._invalid_rect.top = h0;
+		HAL._invalid_rect.right = 0;
+		HAL._invalid_rect.bottom = 0;
 	}
 
 
@@ -2119,15 +2119,15 @@ public class Gfx extends PaletteTabs
 
 		if (left < 0) left = 0;
 		if (top < 0) top = 0;
-		if (right > Hal._screen.width) right = Hal._screen.width;
-		if (bottom > Hal._screen.height) bottom = Hal._screen.height;
+		if (right > HAL._screen.width) right = HAL._screen.width;
+		if (bottom > HAL._screen.height) bottom = HAL._screen.height;
 
 		if (left >= right || top >= bottom) return;
 
-		if (left   < Hal._invalid_rect.left  ) Hal._invalid_rect.left   = left;
-		if (top    < Hal._invalid_rect.top   ) Hal._invalid_rect.top    = top;
-		if (right  > Hal._invalid_rect.right ) Hal._invalid_rect.right  = right;
-		if (bottom > Hal._invalid_rect.bottom) Hal._invalid_rect.bottom = bottom;
+		if (left   < HAL._invalid_rect.left  ) HAL._invalid_rect.left   = left;
+		if (top    < HAL._invalid_rect.top   ) HAL._invalid_rect.top    = top;
+		if (right  > HAL._invalid_rect.right ) HAL._invalid_rect.right  = right;
+		if (bottom > HAL._invalid_rect.bottom) HAL._invalid_rect.bottom = bottom;
 
 		//Global.debug("dirty add   l %4d t %3d r %4d b %3d",left, top, right, bottom);
 
@@ -2170,7 +2170,7 @@ public class Gfx extends PaletteTabs
 
 class DrawStringStateMachine
 {
-	private final DrawPixelInfo dpi = Hal._cur_dpi;
+	private final DrawPixelInfo dpi = HAL._cur_dpi;
 	private int base = Gfx._stringwidth_base;
 	private int sp = 0; // string pointer
 	private int color;
@@ -2202,9 +2202,9 @@ class DrawStringStateMachine
 
 		if (color != 0xFE) {
 			if (x >= dpi.left + dpi.width ||
-					x + Hal._screen.width*2 <= dpi.left ||
+					x + HAL._screen.width*2 <= dpi.left ||
 					y >= dpi.top + dpi.height ||
-					y + Hal._screen.height <= dpi.top)
+					y + HAL._screen.height <= dpi.top)
 				return x;
 
 			if (color != 0xFF) {

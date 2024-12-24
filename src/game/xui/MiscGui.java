@@ -13,7 +13,7 @@ import game.Cmd;
 import game.Engine;
 import game.GameOptions;
 import game.Global;
-import game.Hal;
+import game.HAL;
 import game.Landscape;
 import game.Main;
 import game.Player;
@@ -202,7 +202,7 @@ public class MiscGui {
 
 	static void PlaceLandBlockInfo()
 	{
-		if (Hal._cursor.sprite.id == Sprite.SPR_CURSOR_QUERY) {
+		if (HAL._cursor.sprite.id == Sprite.SPR_CURSOR_QUERY) {
 			ViewPort.ResetObjectToPlace();
 		} else {
 			Global._place_proc = MiscGui::Place_LandInfo;
@@ -377,7 +377,7 @@ public class MiscGui {
 				w.flags4 |= 5 << Window.WF_TIMEOUT_SHL;
 				Sound.SndPlayFx(Snd.SND_15_BEEP);
 				Tree.PlaceTreesRandomly();
-				Hal.MarkWholeScreenDirty();
+				HAL.MarkWholeScreenDirty();
 				break;
 			}
 		} break;
@@ -596,15 +596,15 @@ public class MiscGui {
 
 				// move x pos to opposite corner
 				pt.x = ((pt.x - vp.virtual_left) >> vp.zoom) + vp.left;
-				pt.x = (pt.x < (Hal._screen.width >> 1)) ? Hal._screen.width - 260 : 20;
+				pt.x = (pt.x < (HAL._screen.width >> 1)) ? HAL._screen.width - 260 : 20;
 
 				// move y pos to opposite corner
 				pt.y = ((pt.y - vp.virtual_top) >> vp.zoom) + vp.top;
-				pt.y = (pt.y < (Hal._screen.height >> 1)) ? Hal._screen.height - 80 : 100;
+				pt.y = (pt.y < (HAL._screen.height >> 1)) ? HAL._screen.height - 80 : 100;
 
 			} else {
-				pt.x = (Hal._screen.width - 240) >> 1;
-						pt.y = (Hal._screen.height - 46) >> 1;
+				pt.x = (HAL._screen.width - 240) >> 1;
+						pt.y = (HAL._screen.height - 46) >> 1;
 			}
 			w = Window.AllocateWindow(pt.x, pt.y, 240, 46, MiscGui::ErrmsgWndProc, Window.WC_ERRMSG, _errmsg_widgets);
 		} else {
@@ -614,11 +614,11 @@ public class MiscGui {
 				//vp = w.viewport;
 				vp = Window.getMain().getViewport();
 
-				pt.x = BitOps.clamp(((pt.x - vp.virtual_left) >> vp.zoom) + vp.left - (334/2), 0, Hal._screen.width - 334);
-				pt.y = BitOps.clamp(((pt.y - vp.virtual_top) >> vp.zoom) + vp.top - (137/2), 22, Hal._screen.height - 137);
+				pt.x = BitOps.clamp(((pt.x - vp.virtual_left) >> vp.zoom) + vp.left - (334/2), 0, HAL._screen.width - 334);
+				pt.y = BitOps.clamp(((pt.y - vp.virtual_top) >> vp.zoom) + vp.top - (137/2), 22, HAL._screen.height - 137);
 			} else {
-				pt.x = (Hal._screen.width - 334) >> 1;
-				pt.y = (Hal._screen.height - 137) >> 1;
+				pt.x = (HAL._screen.width - 334) >> 1;
+				pt.y = (HAL._screen.height - 137) >> 1;
 			}
 			w = Window.AllocateWindow(pt.x, pt.y, 334, 137, MiscGui::ErrmsgWndProc, Window.WC_ERRMSG, _errmsg_face_widgets);
 		}
@@ -710,15 +710,15 @@ public class MiscGui {
 			right = 200;
 		}
 
-		y = Hal._cursor.pos.y + 30;
+		y = HAL._cursor.pos.y + 30;
 		if (y < 22) y = 22;
 
-		if (y > (Hal._screen.height - 44) && (y-=52) > (Hal._screen.height - 44))
-			y = (Hal._screen.height - 44);
+		if (y > (HAL._screen.height - 44) && (y-=52) > (HAL._screen.height - 44))
+			y = (HAL._screen.height - 44);
 
-		x = Hal._cursor.pos.x - (right >> 1);
+		x = HAL._cursor.pos.x - (right >> 1);
 		if (x < 0) x = 0;
-		if (x > (Hal._screen.width - right)) x = Hal._screen.width - right;
+		if (x > (HAL._screen.width - right)) x = HAL._screen.width - right;
 
 		w = Window.AllocateWindow(x, y, right, bottom, MiscGui::TooltipsWndProc, Window.WC_TOOLTIPS, _tooltips_widgets);
 		w.as_tooltips_d().string_id = string_id;
@@ -1412,7 +1412,7 @@ public class MiscGui {
 
 		case WE_KEYPRESS:
 			if(e.keycode == Window.WKC_RETURN)
-				IntroGui.GenRandomNewGame(Hal.Random(), Hal.InteractiveRandom());
+				IntroGui.GenRandomNewGame(HAL.Random(), HAL.InteractiveRandom());
 			break;
 			
 		case WE_CLICK:
@@ -1433,7 +1433,7 @@ public class MiscGui {
 
 			case 6: /* Click the listbox */
 				if (e.pt.y < list_start)
-					IntroGui.GenRandomNewGame(Hal.Random(), Hal.InteractiveRandom());
+					IntroGui.GenRandomNewGame(HAL.Random(), HAL.InteractiveRandom());
 				else {
 
 					String name;
@@ -1450,7 +1450,7 @@ public class MiscGui {
 						SetFiosType(file.type);
 						Main._file_to_saveload.name = name;
 						w.DeleteWindow();
-						IntroGui.StartScenarioEditor(Hal.Random(), Hal.InteractiveRandom());
+						IntroGui.StartScenarioEditor(HAL.Random(), HAL.InteractiveRandom());
 					}
 				}
 				break;
@@ -1533,7 +1533,7 @@ public class MiscGui {
 			if (Player.GetPlayer(p1).isActive()) 
 			{
 				Global.gs._local_player = PlayerID.get( p1 );
-				Hal.MarkWholeScreenDirty();
+				HAL.MarkWholeScreenDirty();
 				return Global.gs._local_player.id;
 			}
 			p1 += p2;
@@ -1549,7 +1549,7 @@ public class MiscGui {
 		if (p1 ==  4) p1 = 0;
 		GameOptions._opt.landscape =  p1;
 		GfxInit.GfxLoadSprites();
-		Hal.MarkWholeScreenDirty();
+		HAL.MarkWholeScreenDirty();
 		return GameOptions._opt.landscape;
 	}
 

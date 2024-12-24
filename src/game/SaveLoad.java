@@ -139,7 +139,7 @@ public class SaveLoad
 
 			readAll(oin);
 
-			Hal.MarkWholeScreenDirty();
+			HAL.MarkWholeScreenDirty();
 
 		} catch (FileNotFoundException e) {
 			Global.error(e);

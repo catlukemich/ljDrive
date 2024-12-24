@@ -1285,8 +1285,12 @@ private  final int *GetArgvPtr(final int **argv, int n)
 		
 		if (def == -1) def = fallback;
 
-		if (m == 0)
-			Global.error(files.size() == 0 ? "No available language packs" : "Invalid version of language packs");
+		if (m == 0) {
+			String message = files.size() == 0 ? "No available language packs" : "Invalid version of language packs";
+			Global.error(message);
+			throw new RuntimeException(message);
+		}
+		
 
 		dl.num = m;
 		

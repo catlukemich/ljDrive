@@ -351,7 +351,7 @@ public class NewsItem implements Serializable
 
 		case WE_TICK: { /* Scroll up newsmessages from the bottom in steps of 4 pixels */
 			int diff;
-			int y = Math.max(w.getTop() - 4, Hal._screen.height - w.getHeight() - 12 - w.message.msg);
+			int y = Math.max(w.getTop() - 4, HAL._screen.height - w.getHeight() - 12 - w.message.msg);
 			if (y == w.getTop()) return;
 
 			if (w.getViewport() != null)
@@ -530,7 +530,7 @@ public class NewsItem implements Serializable
 		Snd sound = _news_sounds[ni.type];
 		if (sound != Snd.SND_NONE) Sound.SndPlayFx(sound);
 
-		top = Hal._screen.height;
+		top = HAL._screen.height;
 		switch (ni.display_mode) {
 		case NM_NORMAL:
 		case NM_CALLBACK: {

@@ -9,7 +9,7 @@ import game.Cmd;
 import game.GameOptions;
 import game.GenerateWorld;
 import game.Global;
-import game.Hal;
+import game.HAL;
 import game.Industry;
 import game.Landscape;
 import game.NewsItem;
@@ -94,8 +94,8 @@ public class Gui
 
 		setupColors();
 
-		width = Hal._screen.width;
-		height = Hal._screen.height;
+		width = HAL._screen.width;
+		height = HAL._screen.height;
 
 		switch (Global._game_mode) {
 		case GM_MENU:
@@ -319,7 +319,7 @@ public class Gui
 			case 11: Global._display_opt ^= Global.DO_TRANS_BUILDINGS;    break;
 			case 12: Global._display_opt ^= Global.DO_TRANS_SIGNS;        break;
 		}
-		Hal.MarkWholeScreenDirty();
+		HAL.MarkWholeScreenDirty();
 	}
 
 	static void MenuClickSaveLoad(int index)
@@ -519,7 +519,7 @@ public class Gui
 
 	static void SelectSignTool()
 	{
-		if (Hal._cursor.sprite.id == Sprite.SPR_CURSOR_SIGN) {
+		if (HAL._cursor.sprite.id == Sprite.SPR_CURSOR_SIGN) {
 			ViewPort.ResetObjectToPlace();
 		} else {
 			ViewPort.SetObjectToPlace(Sprite.SPR_CURSOR_SIGN, 1, 1, 0);
@@ -1222,11 +1222,11 @@ public class Gui
 
 	static void ResetLandscape()
 	{
-		Global._random_seeds[0][0] = Hal.InteractiveRandom();
-		Global._random_seeds[0][1] = Hal.InteractiveRandom();
+		Global._random_seeds[0][0] = HAL.InteractiveRandom();
+		Global._random_seeds[0][1] = HAL.InteractiveRandom();
 
 		GenerateWorld.doGenerateWorld(1, 1 << Global._patches.map_x, 1 << Global._patches.map_y);
-		Hal.MarkWholeScreenDirty();
+		HAL.MarkWholeScreenDirty();
 	}
 
 	static final Widget _ask_reset_landscape_widgets[] = {
@@ -2367,11 +2367,11 @@ public class Gui
 
 		if (!DrawPixelInfo.FillDrawPixelInfo(tmp_dpi, null, 141, 1, 358, 11)) return true;
 
-		old_dpi = Hal._cur_dpi;
-		Hal._cur_dpi = tmp_dpi;
+		old_dpi = HAL._cur_dpi;
+		HAL._cur_dpi = tmp_dpi;
 
 		x = Gfx.DoDrawString( new String( d ), pos, 0, 13);
-		Hal._cur_dpi = old_dpi;
+		HAL._cur_dpi = old_dpi;
 
 		return x > 0;
 	}
@@ -2475,7 +2475,7 @@ public class Gui
 		case WE_PAINT:
 			ViewPort.DrawWindowViewport(w);
 			if (Global._game_mode == GameModes.GM_MENU) {
-				off_x = Hal._screen.width / 2;
+				off_x = HAL._screen.width / 2;
 
 				Gfx.DrawSprite(Sprite.SPR_OTTD_O, off_x - 120, 50);
 				Gfx.DrawSprite(Sprite.SPR_OTTD_P, off_x -  86, 50);
@@ -2539,7 +2539,7 @@ public class Gui
 				case Window.WKC_ESC: ViewPort.ResetObjectToPlace(); break;
 				case Window.WKC_DELETE: Window.DeleteNonVitalWindows(); break;
 				case Window.WKC_DELETE | Window.WKC_SHIFT: Window.DeleteAllNonVitalWindows(); break;
-				case 'R' | Window.WKC_CTRL: Hal.MarkWholeScreenDirty(); break;
+				case 'R' | Window.WKC_CTRL: HAL.MarkWholeScreenDirty(); break;
 
 	/*#if defined(_DEBUG)
 				case '0' | Window.WKC_ALT: // Crash the game 
@@ -2561,7 +2561,7 @@ public class Gui
 
 				case 'X':
 					Global._display_opt ^= Global.DO_TRANS_BUILDINGS;
-					Hal.MarkWholeScreenDirty();
+					HAL.MarkWholeScreenDirty();
 					break;
 
 	
@@ -2595,7 +2595,7 @@ public class Gui
 
 		Window.PositionMainToolbar(w); // already WC_MAIN_TOOLBAR passed (&_toolb_normal_desc)
 
-		_main_status_desc.top = Hal._screen.height - 12;
+		_main_status_desc.top = HAL._screen.height - 12;
 		w = Window.AllocateWindowDesc(_main_status_desc,0);
 		w.flags4 = BitOps.RETCLRBITS(w.flags4, Window.WF_WHITE_BORDER_MASK);
 
@@ -2604,11 +2604,11 @@ public class Gui
 
 	void GameSizeChanged()
 	{
-		Global._cur_resolution[0] = Hal._screen.width;
-		Global._cur_resolution[1] = Hal._screen.height;
-		Window.RelocateAllWindows(Hal._screen.width, Hal._screen.height);
+		Global._cur_resolution[0] = HAL._screen.width;
+		Global._cur_resolution[1] = HAL._screen.height;
+		Window.RelocateAllWindows(HAL._screen.width, HAL._screen.height);
 		Gfx.ScreenSizeChanged();
-		Hal.MarkWholeScreenDirty();
+		HAL.MarkWholeScreenDirty();
 	}
 	
 

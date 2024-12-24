@@ -256,10 +256,10 @@ public class Airport extends AirConstants
 		// country airport
 		CountryAirport = new Airport(
 				//CountryAirport,
-				AirCraftTables._airport_terminal_country,
-				null,
-				16,
-				ALL,
+				AirCraftTables._airport_terminal_country, // Terminals
+				null, // Helipads
+				16, // Entry point
+				ALL, // Acceptable planes
 				AirCraftTables._airport_fta_country,
 				AirCraftTables._airport_depots_country
 				//_airport_depots_country.length

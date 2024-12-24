@@ -428,7 +428,7 @@ public class Economy extends EconomeTables implements Serializable
 
 		PlayerID.setCurrent(old);
 
-		Hal.MarkWholeScreenDirty();
+		HAL.MarkWholeScreenDirty();
 	}
 
 	static void PlayersCheckBankrupt(Player p)
@@ -770,10 +770,10 @@ public class Economy extends EconomeTables implements Serializable
 		if (GameOptions._opt.diff.economy == 0) return;
 
 		if (--fluct == 0) {
-			fluct = -BitOps.GB(Hal.Random(), 0, 2);
+			fluct = -BitOps.GB(HAL.Random(), 0, 2);
 			NewsItem.AddNewsItem(Str.STR_7073_WORLD_RECESSION_FINANCIAL, NewsItem.NEWS_FLAGS(NewsItem.NM_NORMAL,0,NewsItem.NT_ECONOMY,0), 0, 0);
 		} else if (fluct == -12) {
-			fluct = BitOps.GB(Hal.Random(), 0, 8) + 312;
+			fluct = BitOps.GB(HAL.Random(), 0, 8) + 312;
 			NewsItem.AddNewsItem(Str.STR_7074_RECESSION_OVER_UPTURN_IN, NewsItem.NEWS_FLAGS(NewsItem.NM_NORMAL,0,NewsItem.NT_ECONOMY,0), 0, 0);
 		}
 	}
@@ -837,7 +837,7 @@ public class Economy extends EconomeTables implements Serializable
 		infl_amount = GameOptions._opt.diff.initial_interest;
 		infl_amount_pr = Math.max(0, GameOptions._opt.diff.initial_interest - 1);
 		max_loan_unround = max_loan = GameOptions._opt.diff.max_loan * 1000;
-		fluct = BitOps.GB(Hal.Random(), 0, 8) + 168;
+		fluct = BitOps.GB(HAL.Random(), 0, 8) + 168;
 	}
 
 
@@ -872,12 +872,12 @@ public class Economy extends EconomeTables implements Serializable
 
 		fr.distance = -1;
 
-		fr.from = i = Industry.GetIndustry(Hal.RandomRange(Industry._total_industries));
+		fr.from = i = Industry.GetIndustry(HAL.RandomRange(Industry._total_industries));
 		if (!i.isValid())
 			return null;
 
 		// Randomize cargo type
-		if ( 0 != (Hal.Random()&1) && i.produced_cargo[1] != AcceptedCargo.CT_INVALID) {
+		if ( 0 != (HAL.Random()&1) && i.produced_cargo[1] != AcceptedCargo.CT_INVALID) {
 			cargo = i.produced_cargo[1];
 			trans = i.pct_transported[1];
 			total = i.total_production[1];
@@ -906,7 +906,7 @@ public class Economy extends EconomeTables implements Serializable
 			fr.to = t;
 		} else {
 			// The destination is an industry
-			Industry i2 = Industry.GetIndustry(Hal.RandomRange(Industry._total_industries));
+			Industry i2 = Industry.GetIndustry(HAL.RandomRange(Industry._total_industries));
 
 			// The industry must accept the cargo
 			if (i == i2 || !i2.isValid() ||

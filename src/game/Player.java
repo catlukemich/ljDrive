@@ -467,7 +467,7 @@ public class Player implements Serializable
 		p.name_1 = str.id;
 		p.name_2 = strp;
 
-		Hal.MarkWholeScreenDirty();
+		HAL.MarkWholeScreenDirty();
 
 		if (!p.index.IS_HUMAN_PLAYER()) {
 			Global.SetDParam(0, t.index);
@@ -518,7 +518,7 @@ public class Player implements Serializable
 				return;
 			} else {
 				str = new StringID( Strings.SPECSTR_ANDCO_NAME );
-				strp = Hal.Random();
+				strp = HAL.Random();
 				if( GenerateCompanyName_verify_name(str, strp) )
 				{
 					GenerateCompanyName_set_name(p, t, str, strp);
@@ -554,7 +554,7 @@ public class Player implements Serializable
 		// And randomize it
 		n = 100;
 		do {
-			r = Hal.Random();
+			r = HAL.Random();
 			COLOR_SWAP( colors, BitOps.GB(r, 0, 4), BitOps.GB(r, 4, 4));
 		} while (--n > 0);
 
@@ -614,7 +614,7 @@ public class Player implements Serializable
 		for(;;) {
 			//restart:;
 
-			president_name_2 = Hal.Random();
+			president_name_2 = HAL.Random();
 			president_name_1 = Strings.SPECSTR_PRESIDENT_NAME;
 
 			Global.SetDParam(0, president_name_2);
@@ -683,7 +683,7 @@ public class Player implements Serializable
 
 		p.avail_railtypes = GetPlayerRailtypes(p.index);
 		p.inaugurated_year = Global.get_cur_year();
-		p.face = Hal.Random();
+		p.face = HAL.Random();
 
 		/* Engine renewal settings */
 		p.InitialiseEngineReplacement();
@@ -707,7 +707,7 @@ public class Player implements Serializable
 	static void StartupPlayers()
 	{
 		// The AI starts like in the setting with +2 month max
-		Global.gs._next_competitor_start = GameOptions._opt.diff.competitor_start_time * 90 * Global.DAY_TICKS + Hal.RandomRange(60 * Global.DAY_TICKS) + 1;
+		Global.gs._next_competitor_start = GameOptions._opt.diff.competitor_start_time * 90 * Global.DAY_TICKS + HAL.RandomRange(60 * Global.DAY_TICKS) + 1;
 	}
 
 	private static void MaybeStartNewPlayer()
@@ -724,13 +724,13 @@ public class Player implements Serializable
 
 		// when there's a lot of computers in game, the probability that a new one starts is lower
 		if (n < GameOptions._opt.diff.max_no_competitors)
-			if (n < (Global._network_server ? Hal.InteractiveRandomRange(GameOptions._opt.diff.max_no_competitors + 2) : Hal.RandomRange(GameOptions._opt.diff.max_no_competitors + 2)) )
+			if (n < (Global._network_server ? HAL.InteractiveRandomRange(GameOptions._opt.diff.max_no_competitors + 2) : HAL.RandomRange(GameOptions._opt.diff.max_no_competitors + 2)) )
 				// Send a command to all clients to start  up a new AI. Works fine for Multiplayer and SinglePlayer 
 				Cmd.DoCommandP(new TileIndex(0), 1, 0, null, Cmd.CMD_PLAYER_CTRL);
 
 		// The next AI starts like the difficulty setting said, with +2 month max
 		Global.gs._next_competitor_start = GameOptions._opt.diff.competitor_start_time * 90 * Global.DAY_TICKS + 1;
-		Global.gs._next_competitor_start += Global._network_server ? Hal.InteractiveRandomRange(60 * Global.DAY_TICKS) : Hal.RandomRange(60 * Global.DAY_TICKS);
+		Global.gs._next_competitor_start += Global._network_server ? HAL.InteractiveRandomRange(60 * Global.DAY_TICKS) : HAL.RandomRange(60 * Global.DAY_TICKS);
 	}
 
 	static void InitializePlayers()
@@ -1038,7 +1038,7 @@ public class Player implements Serializable
 						} else {
 							Global.gs._local_player = p.index;
 						}
-						Hal.MarkWholeScreenDirty();
+						HAL.MarkWholeScreenDirty();
 					}
 				} else if (p.index.isLocalPlayer()) {
 					Cmd.DoCommandP(TileIndex.get(0), ((Global._patches.autorenew.get() ? 1:0) << 15 ) | (Global._patches.autorenew_months << 16) | 4, (int)Global._patches.autorenew_money, null, Cmd.CMD_REPLACE_VEHICLE);

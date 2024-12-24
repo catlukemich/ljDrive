@@ -96,7 +96,7 @@ public class TextEffect
 	// Hide the textbox
 	public static void UndrawTextMessage()
 	{
-		CursorVars _cursor = Hal._cursor;
+		CursorVars _cursor = HAL._cursor;
 		if (_textmessage_visible) {
 			// Sometimes we also need to hide the cursor
 			//   This is because both textmessage and the cursor take a shot of the
@@ -120,7 +120,7 @@ public class TextEffect
 			if (_cursor.isVisible()) 
 			{
 				if (_cursor.xBetween( _textmessage_box_left,  _textmessage_box_left + _textmessage_width) &&
-						_cursor.yBetween(Hal._screen.height - _textmessage_box_bottom - _textmessage_box_y, Hal._screen.height - _textmessage_box_bottom) ) 
+						_cursor.yBetween(HAL._screen.height - _textmessage_box_bottom - _textmessage_box_y, HAL._screen.height - _textmessage_box_bottom) ) 
 				{
 					Gfx.UndrawMouseCursor();
 				}
@@ -129,12 +129,12 @@ public class TextEffect
 			_textmessage_visible = false;
 			// Put our 'shot' back to the screen
 			Gfx.memcpy_pitch(
-					new Pixel(Hal._screen.dst_ptr, _textmessage_box_left + (Hal._screen.height-_textmessage_box_bottom-_textmessage_box_y) * Hal._screen.pitch ),	
+					new Pixel(HAL._screen.dst_ptr, _textmessage_box_left + (HAL._screen.height-_textmessage_box_bottom-_textmessage_box_y) * HAL._screen.pitch ),	
 					new Pixel(_textmessage_backup),
-					_textmessage_width, _textmessage_box_y, _textmessage_width, Hal._screen.pitch);
+					_textmessage_width, _textmessage_box_y, _textmessage_width, HAL._screen.pitch);
 
 			// And make sure it is updated next time
-			Global.hal.make_dirty(_textmessage_box_left, Hal._screen.height-_textmessage_box_bottom-_textmessage_box_y, _textmessage_width, _textmessage_box_y);
+			Global.hal.make_dirty(_textmessage_box_left, HAL._screen.height-_textmessage_box_bottom-_textmessage_box_y, _textmessage_width, _textmessage_box_y);
 
 			_textmessage_dirty = true;
 		}
@@ -173,11 +173,11 @@ public class TextEffect
 		// Make a copy of the screen as it is before painting (for undraw)
 		Gfx.memcpy_pitch(
 				new Pixel(_textmessage_backup),
-				new Pixel(Hal._screen.dst_ptr, _textmessage_box_left + (Hal._screen.height-_textmessage_box_bottom-_textmessage_box_y) * Hal._screen.pitch),
-				_textmessage_width, _textmessage_box_y, Hal._screen.pitch, _textmessage_width);
+				new Pixel(HAL._screen.dst_ptr, _textmessage_box_left + (HAL._screen.height-_textmessage_box_bottom-_textmessage_box_y) * HAL._screen.pitch),
+				_textmessage_width, _textmessage_box_y, HAL._screen.pitch, _textmessage_width);
 
 		// Switch to _screen painting
-		Hal._cur_dpi = Hal._screen;
+		HAL._cur_dpi = HAL._screen;
 
 		int j = 0;
 		
@@ -185,14 +185,14 @@ public class TextEffect
 		for(TextMessage m : _text_message_list)
 		{
 			j++;
-			Gfx.GfxFillRect(_textmessage_box_left, Hal._screen.height-_textmessage_box_bottom-j*13-2, _textmessage_box_left+_textmessage_width - 1, Hal._screen.height-_textmessage_box_bottom-j*13+10, /* black, but with some alpha */ 0x322 | Sprite.USE_COLORTABLE);
+			Gfx.GfxFillRect(_textmessage_box_left, HAL._screen.height-_textmessage_box_bottom-j*13-2, _textmessage_box_left+_textmessage_width - 1, HAL._screen.height-_textmessage_box_bottom-j*13+10, /* black, but with some alpha */ 0x322 | Sprite.USE_COLORTABLE);
 
-			Gfx.DoDrawString(m.message, _textmessage_box_left + 2, Hal._screen.height - _textmessage_box_bottom - j * 13 - 1, 0x10);
-			Gfx.DoDrawString(m.message, _textmessage_box_left + 3, Hal._screen.height - _textmessage_box_bottom - j * 13, m.color);
+			Gfx.DoDrawString(m.message, _textmessage_box_left + 2, HAL._screen.height - _textmessage_box_bottom - j * 13 - 1, 0x10);
+			Gfx.DoDrawString(m.message, _textmessage_box_left + 3, HAL._screen.height - _textmessage_box_bottom - j * 13, m.color);
 		}
 		
 		// Make sure the data is updated next flush
-		Global.hal.make_dirty(_textmessage_box_left, Hal._screen.height-_textmessage_box_bottom-_textmessage_box_y, _textmessage_width, _textmessage_box_y);
+		Global.hal.make_dirty(_textmessage_box_left, HAL._screen.height-_textmessage_box_bottom-_textmessage_box_y, _textmessage_width, _textmessage_box_y);
 
 		_textmessage_visible = true;
 		_textmessage_dirty = false;

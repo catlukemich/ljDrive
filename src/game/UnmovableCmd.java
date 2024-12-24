@@ -298,7 +298,7 @@ public class UnmovableCmd extends UnmovableTables {
 		level = BitOps.GB(m5, 0, 7) / 4 + 1;
 		assert(level < 6);
 
-		r = Hal.Random();
+		r = HAL.Random();
 		// Top town buildings generate 250, so the top HQ type makes 256.
 		if (BitOps.GB(r, 0, 8) < (256 / 4 / (6 - level))) {
 			int amt = BitOps.GB(r, 0, 8) / 8 / 4 + 1;
@@ -372,7 +372,7 @@ public class UnmovableCmd extends UnmovableTables {
 		i = Map.ScaleByMapSize(1000);
 		j = Map.ScaleByMapSize(40); // maximum number of radio towers on the map
 		do {
-			tile = Hal.RandomTile();
+			tile = HAL.RandomTile();
 			if (tile.IsTileType( TileTypes.MP_CLEAR) && tile.GetTileSlope(h) == 0 && h.v >= 32) {
 				if(!checkRadioTowerNearby(tile))
 					continue;
@@ -388,10 +388,10 @@ public class UnmovableCmd extends UnmovableTables {
 			return;
 
 		/* add lighthouses */
-		i = Map.ScaleByMapSize1D((Hal.Random() & 3) + 7);
+		i = Map.ScaleByMapSize1D((HAL.Random() & 3) + 7);
 		do {
 			//restart:
-			r = Hal.Random();
+			r = HAL.Random();
 			dir = r >>> 30;
 			r %= (dir == 0 || dir == 2) ? Global.MapMaxY() : Global.MapMaxX();
 			

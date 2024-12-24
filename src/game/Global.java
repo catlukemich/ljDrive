@@ -83,6 +83,8 @@ public class Global
 	public static final int SCROLL_SAVE = 2;
 	public static final int SCROLL_CHAT = 4;
 	//};
+	
+	// "SLD" - Save Load Dialog
 	public static final int SLD_LOAD_GAME = 0;
 	public static final int SLD_LOAD_SCENARIO = 1;
 	public static final int SLD_SAVE_GAME = 2;
@@ -91,7 +93,7 @@ public class Global
 	
 	public static final int GAME_DIFFICULTY_NUM = 18;
 	
-	static public final Hal hal = new Hal();
+	static public final HAL hal = new HAL();
 	static public final Patches _patches = new Patches();
 
 	public static GameModes _game_mode;

@@ -212,7 +212,7 @@ public class DisasterCmd extends DisasterTables
 			v.disaster.image_override = Sprite.SPR_BLIMP_CRASHED;
 		} else if (v.age <= 300) {
 			if (0==(v.tick_counter&7)) {
-				int r = Hal.Random();
+				int r = HAL.Random();
 
 				v.CreateEffectVehicleRel(
 						BitOps.GB(r, 0, 4) - 7,
@@ -259,7 +259,7 @@ public class DisasterCmd extends DisasterTables
 				return;
 			}
 			if (++v.age < 6) {
-				v.dest_tile = Hal.RandomTile();
+				v.dest_tile = HAL.RandomTile();
 				return;
 			}
 			v.getCurrent_order().station = 1;
@@ -358,7 +358,7 @@ public class DisasterCmd extends DisasterTables
 				Industry i = Industry.GetIndustry(v.dest_tile.tile);
 				int x = i.xy.TileX() * 16;
 				int y = i.xy.TileY() * 16;
-				int r = Hal.Random();
+				int r = HAL.Random();
 
 				Vehicle.CreateEffectVehicleAbove(
 						BitOps.GB(r,  0, 6) + x,
@@ -430,7 +430,7 @@ public class DisasterCmd extends DisasterTables
 				Industry i = Industry.GetIndustry(v.dest_tile.tile);
 				int x = i.xy.TileX() * 16;
 				int y = i.xy.TileY() * 16;
-				int r = Hal.Random();
+				int r = HAL.Random();
 
 				Vehicle.CreateEffectVehicleAbove(
 						BitOps.GB(r,  0, 6) + x,
@@ -569,12 +569,12 @@ public class DisasterCmd extends DisasterTables
 			}
 
 			if (++v.age < 6) {
-				v.dest_tile = Hal.RandomTile();
+				v.dest_tile = HAL.RandomTile();
 				return;
 			}
 			v.getCurrent_order().station = 1;
 
-			tile_org = tile = Hal.RandomTile();
+			tile_org = tile = HAL.RandomTile();
 			do {
 				if (tile.IsTileType( TileTypes.MP_RAILWAY) &&
 						(tile.getMap().m5 & ~3) != 0xC0 && tile.GetTileOwner().IS_HUMAN_PLAYER())
@@ -617,7 +617,7 @@ public class DisasterCmd extends DisasterTables
 			DeleteDisasterVeh(u);
 
 			for(i=0; i!=80; i++) {
-				int r = Hal.Random();
+				int r = HAL.Random();
 				Vehicle.CreateEffectVehicleAbove(
 						BitOps.GB(r, 0, 6) + v.getX_pos() - 32,
 						BitOps.GB(r, 5, 6) + v.getY_pos() - 32,
@@ -668,7 +668,7 @@ public class DisasterCmd extends DisasterTables
 			}
 		}
 
-		v.direction = (v.direction + (BitOps.GB(Hal.Random(), 0, 1)!=0 ? 2 : -2) ) & 7;
+		v.direction = (v.direction + (BitOps.GB(HAL.Random(), 0, 1)!=0 ? 2 : -2) ) & 7;
 	}
 
 
@@ -709,7 +709,7 @@ public class DisasterCmd extends DisasterTables
 
 		/* Pick a random place, unless we find
 		    a small airport */
-		TileIndex tile = new TileIndex(Hal.Random());
+		TileIndex tile = new TileIndex(HAL.Random());
 		x = tile.TileX() * 16 + 8;
 
 		Iterator<Station> ii = Station.getIterator();
@@ -744,7 +744,7 @@ public class DisasterCmd extends DisasterTables
 		if (v == null)
 			return;
 
-		TileIndex tile = new TileIndex(Hal.Random());
+		TileIndex tile = new TileIndex(HAL.Random());
 		x = tile.TileX() * 16 + 8;
 
 		InitializeDisasterVehicle(v, x, 0, 135, 3, 2);
@@ -851,7 +851,7 @@ public class DisasterCmd extends DisasterTables
 
 		if (v == null) return;
 
-		TileIndex tile = new TileIndex(Hal.Random());
+		TileIndex tile = new TileIndex(HAL.Random());
 		x = tile.TileX() * 16 + 8;
 
 		y = Global.MapMaxX() * 16 - 1;
@@ -877,7 +877,7 @@ public class DisasterCmd extends DisasterTables
 
 		if (v == null) return;
 
-		TileIndex r = new TileIndex(Hal.Random());
+		TileIndex r = new TileIndex(HAL.Random());
 		x = r.TileX() * 16 + 8;
 
 		y = 8;
@@ -896,7 +896,7 @@ public class DisasterCmd extends DisasterTables
 
 		if (v == null) return;
 
-		TileIndex r = new TileIndex(Hal.Random());
+		TileIndex r = new TileIndex(HAL.Random());
 		x = r.TileX() * 16 + 8;
 
 		y = 8;
@@ -908,7 +908,7 @@ public class DisasterCmd extends DisasterTables
 
 	static void Disaster7_Init()
 	{
-		int index = BitOps.GB(Hal.Random(), 0, 4);
+		int index = BitOps.GB(HAL.Random(), 0, 4);
 		int m;
 
 		for (m = 0; m < 15; m++) {
@@ -925,7 +925,7 @@ public class DisasterCmd extends DisasterTables
 
 					{
 						TileIndex tile = i.xy;
-						TileIndexDiff step = TileIndex.TileOffsByDir(BitOps.GB(Hal.Random(), 0, 2));
+						TileIndexDiff step = TileIndex.TileOffsByDir(BitOps.GB(HAL.Random(), 0, 2));
 						int n;
 
 						for (n = 0; n < 30; n++) {
@@ -968,13 +968,13 @@ public class DisasterCmd extends DisasterTables
 
 		if (j == 0) return;
 
-		_disaster_initprocs[buf[Hal.RandomRange(j)]].init();
+		_disaster_initprocs[buf[HAL.RandomRange(j)]].init();
 	}
 
 
 	static void ResetDisasterDelay()
 	{
-		Global._disaster_delay = BitOps.GB(Hal.Random(), 0, 9) + 730;
+		Global._disaster_delay = BitOps.GB(HAL.Random(), 0, 9) + 730;
 	}
 
 	public static void DisasterDailyLoop()

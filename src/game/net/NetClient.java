@@ -8,7 +8,7 @@ import java.io.RandomAccessFile;
 import game.Cmd;
 import game.GameOptions;
 import game.Global;
-import game.Hal;
+import game.HAL;
 import game.Main;
 import game.Player;
 import game.SaveLoad;
@@ -747,7 +747,7 @@ public interface NetClient extends NetTools, NetDefs
 		}
 
 		if (ci != null)
-			Net.NetworkTextMessage(action, Hal.GetDrawStringPlayerColor(ci.client_playas-1), self_send, name, "%s", msg);
+			Net.NetworkTextMessage(action, HAL.GetDrawStringPlayerColor(ci.client_playas-1), self_send, name, "%s", msg);
 		return NetworkRecvStatus.OKAY;
 	}
 

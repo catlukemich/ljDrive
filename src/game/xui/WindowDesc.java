@@ -30,8 +30,7 @@ public class WindowDesc implements Serializable
 			
 			//WindowClass cls,
 			//WindowClass parent_cls,
-			int cls,
-			int parent_cls,
+			int cls, int parent_cls,
 			
 			int flags,
 			Widget []widgets,

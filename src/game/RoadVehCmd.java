@@ -466,7 +466,7 @@ public class RoadVehCmd extends RoadVehCmdTables {
 
 	static void RoadVehSetRandomDirection(Vehicle v)
 	{
-		int r = Hal.Random();
+		int r = HAL.Random();
 		v.direction = (v.direction+_turn_prob[r&3])&7;
 		v.BeginVehicleMove();
 		UpdateRoadVehDeltaXY(v);
@@ -925,7 +925,7 @@ public class RoadVehCmd extends RoadVehCmdTables {
 				num++;
 		} while ((b >>= 1) != 0);
 
-		num = Hal.RandomRange(num);
+		num = HAL.RandomRange(num);
 
 		for(i=0; !((bits & 1)!=0 && (--num < 0)); bits>>=1,i++)
 			;

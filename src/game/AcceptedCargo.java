@@ -21,6 +21,9 @@ public class AcceptedCargo implements Serializable
 		clear();
 	}
 	
+
+	// Every integer the type is assigned to is usually used in arrays as index
+	// "CT" stands for "CARGO_TYPE"
 	// Temperate
 	public static final int CT_PASSENGERS = 0;
 	public static final int CT_COAL = 1;

@@ -191,7 +191,7 @@ public class Engine extends EngineTables implements Serializable
 			e.flags = 0;
 			e.player_avail = 0;
 
-			r = Hal.Random();
+			r = HAL.Random();
 			e.intro_date = BitOps.GB(r, 0, 9) + ei.base_intro;
 			if (e.intro_date <= Global.get_date()) {
 				e.age = (Global.get_date() - e.intro_date) >> 5;
@@ -200,11 +200,11 @@ public class Engine extends EngineTables implements Serializable
 			}
 
 			e.reliability_start = BitOps.GB(r, 16, 14) + 0x7AE0;
-			r = Hal.Random();
+			r = HAL.Random();
 			e.reliability_max   = BitOps.GB(r,  0, 14) + 0xBFFF;
 			e.reliability_final = BitOps.GB(r, 16, 14) + 0x3FFF;
 
-			r = Hal.Random();
+			r = HAL.Random();
 			e.duration_phase_1 = BitOps.GB(r, 0, 5) + 7;
 			e.duration_phase_2 = BitOps.GB(r, 5, 4) + ei.base_life * 12 - 96;
 			e.duration_phase_3 = BitOps.GB(r, 9, 7) + 120;
@@ -760,7 +760,7 @@ public class Engine extends EngineTables implements Serializable
 		assert(group.type == SpriteGroupType.SGT_REAL);
 		rsg = (RealSpriteGroup)group;
 
-		new_random_bits = (byte) Hal.Random();
+		new_random_bits = (byte) HAL.Random();
 		veh.random_bits &= ~_vsg_bits_to_reseed;
 		veh.random_bits |= (first ? new_random_bits : base_random_bits) & _vsg_bits_to_reseed;
 
@@ -1066,7 +1066,7 @@ public class Engine extends EngineTables implements Serializable
 			_engine_name_strings[p1] = str.id;
 			Global.DeleteName(old_str);
 			Global._vehicle_design_names |= 3;
-			Hal.MarkWholeScreenDirty();
+			HAL.MarkWholeScreenDirty();
 		} else {
 			Global.DeleteName(str);
 		}

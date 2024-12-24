@@ -18,7 +18,7 @@ public class MiscCmd {
 	{
 		if(0 != (flags & Cmd.DC_EXEC)) {
 			Player.GetCurrentPlayer().face = p2;
-			Hal.MarkWholeScreenDirty();
+			HAL.MarkWholeScreenDirty();
 		}
 		return 0;
 	}
@@ -51,7 +51,7 @@ public class MiscCmd {
 		if(0 != (flags & Cmd.DC_EXEC)) {
 			Global.gs._player_colors[PlayerID.getCurrent().id] = colour;
 			p.player_color = colour;
-			Hal.MarkWholeScreenDirty();
+			HAL.MarkWholeScreenDirty();
 		}
 		return 0;
 	}
@@ -145,7 +145,7 @@ public class MiscCmd {
 			p = Player.GetCurrentPlayer();
 			Global.DeleteName(p.name_1);
 			p.name_1 = str.id;
-			Hal.MarkWholeScreenDirty();
+			HAL.MarkWholeScreenDirty();
 		} else
 			Global.DeleteName(str);
 
@@ -176,7 +176,7 @@ public class MiscCmd {
 				Global._cmd_text = String.format("%s Transport", Global._cmd_text);
 				Cmd.DoCommandByTile(new TileIndex(0), 0, 0, Cmd.DC_EXEC, Cmd.CMD_CHANGE_COMPANY_NAME);
 			}
-			Hal.MarkWholeScreenDirty();
+			HAL.MarkWholeScreenDirty();
 		} else
 			Global.DeleteName(str);
 

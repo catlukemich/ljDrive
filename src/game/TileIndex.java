@@ -21,7 +21,9 @@ import game.xui.ViewPort;
 // with TileIndex
 
 
-
+/**
+ * A structure that maps - in two ways - from a tile certain location to the tile in the map array.
+ */
 public class TileIndex implements Comparable<TileIndex>, Serializable
 {
 	private static final long serialVersionUID = 2317687924857389962L;
@@ -132,12 +134,12 @@ public class TileIndex implements Comparable<TileIndex>, Serializable
 	 * 
 	 * @param w - rectangle width
 	 * @param h - height
-	 * @param tile - start pos
+	 * @param tileIndex - start pos
 	 * @param c - code to run for each tile, breaks loop if returns true
 	 */
-	public static void forAll( int w, int h, TileIndex tile, Function<TileIndex,Boolean> c )
+	public static void forAll( int w, int h, TileIndex tileIndex, Function<TileIndex,Boolean> c )
 	{
-		forAll( w, h, tile.getTile(), c );		
+		forAll( w, h, tileIndex.getTile(), c );		
 	}	
 	/**
 	 * Iterate over a tiles rectangle.
@@ -654,8 +656,8 @@ public class TileIndex implements Comparable<TileIndex>, Serializable
 		while(true)
 		{
 			TileIndex t = new TileIndex(
-					Hal.Random() % Global.MapMaxX(),
-					Hal.Random() % Global.MapMaxY()
+					HAL.Random() % Global.MapMaxX(),
+					HAL.Random() % Global.MapMaxY()
 					);
 
 			if( t.IsValidTile())

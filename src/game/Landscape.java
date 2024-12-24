@@ -520,7 +520,7 @@ public class Landscape extends GenLandTable
 		//Tile tile;
 		int direction;
 
-		r = Hal.Random32();
+		r = HAL.Random32();
 		template = SpriteCache.GetSprite((int)(((r >> 24) * _genterrain_tbl_1[type]) >> 8) + _genterrain_tbl_2[type] + 4845);
 
 		x = (int)(r & Global.MapMaxX());
@@ -708,28 +708,28 @@ public class Landscape extends GenLandTable
 		int r;
 
 		if (GameOptions._opt.landscape == LT_HILLY) {
-			for (i = Map.ScaleByMapSize((Hal.Random() & 0x7F) + 950); i != 0; --i)
+			for (i = Map.ScaleByMapSize((HAL.Random() & 0x7F) + 950); i != 0; --i)
 				GenerateTerrain(2, 0);
 
-			r = Hal.Random();
+			r = HAL.Random();
 			flag = BitOps.GB(r, 0, 2) | 4;
 			for (i = Map.ScaleByMapSize(BitOps.GB(r, 16, 7) + 450); i != 0; --i)
 				GenerateTerrain(4, flag);
 		} else if (GameOptions._opt.landscape == LT_DESERT) {
-			for (i = Map.ScaleByMapSize((Hal.Random()&0x7F) + 170); i != 0; --i)
+			for (i = Map.ScaleByMapSize((HAL.Random()&0x7F) + 170); i != 0; --i)
 				GenerateTerrain(0, 0);
 
-			r = Hal.Random();
+			r = HAL.Random();
 			flag = BitOps.GB(r, 0, 2) | 4;
 			for (i = Map.ScaleByMapSize(BitOps.GB(r, 16, 8) + 1700); i != 0; --i)
 				GenerateTerrain(0, flag);
 
 			flag ^= 2;
 
-			for (i = Map.ScaleByMapSize((Hal.Random() & 0x7F) + 410); i != 0; --i)
+			for (i = Map.ScaleByMapSize((HAL.Random() & 0x7F) + 410); i != 0; --i)
 				GenerateTerrain(3, flag);
 		} else {
-			i = Map.ScaleByMapSize((Hal.Random() & 0x7F) + (PLAIN_TERRAIN_MAX - GameOptions._opt.diff.quantity_sea_lakes) * 256 + 100);
+			i = Map.ScaleByMapSize((HAL.Random() & 0x7F) + (PLAIN_TERRAIN_MAX - GameOptions._opt.diff.quantity_sea_lakes) * 256 + 100);
 			for (; i != 0; --i)
 				GenerateTerrain(GameOptions._opt.diff.terrain_type, 0);
 		}
@@ -754,7 +754,7 @@ public class Landscape extends GenLandTable
 
 	public static TileIndex AdjustTileCoordRandomly(TileIndex a, int rng)
 	{
-		int r = Hal.Random();
+		int r = HAL.Random();
 
 		return new TileIndex(
 				a.TileX() + (BitOps.GB(r, 0, 8) * rng * 2 >> 8) - rng,

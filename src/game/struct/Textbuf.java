@@ -3,7 +3,7 @@ package game.struct;
 import java.io.Serializable;
 
 import game.Global;
-import game.Hal;
+import game.HAL;
 import game.util.BitOps;
 import game.xui.Gfx;
 import game.xui.Widget;
@@ -224,7 +224,7 @@ public class Textbuf implements Serializable
 		case Window.WKC_ESC: return 2;
 		case Window.WKC_RETURN: case Window.WKC_NUM_ENTER: return 1;
 		case (Window.WKC_CTRL | 'V'):
-			if (Hal.InsertTextBufferClipboard(tb))
+			if (HAL.InsertTextBufferClipboard(tb))
 				w.InvalidateWidget(wid);
 		break;
 		case (Window.WKC_CTRL | 'U'):

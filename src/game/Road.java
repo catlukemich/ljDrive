@@ -864,7 +864,7 @@ public class Road extends RoadTables
 		ViewPort.DrawGroundSprite(image);
 
 		// Return if full detail is disabled, or we are zoomed fully out.
-		if (0==(Global._display_opt & Global.DO_FULL_DETAIL) || Hal._cur_dpi.zoom == 2) return;
+		if (0==(Global._display_opt & Global.DO_FULL_DETAIL) || HAL._cur_dpi.zoom == 2) return;
 
 		if (ground_type >= 6) {
 			// Road works

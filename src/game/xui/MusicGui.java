@@ -3,7 +3,7 @@ package game.xui;
 import java.util.Arrays;
 
 import game.Global;
-import game.Hal;
+import game.HAL;
 import game.Str;
 import game.enums.GameModes;
 import game.util.BitOps;
@@ -146,7 +146,7 @@ public class MusicGui
 		if (msf.shuffle) {
 			i = 500;
 			do {
-				int r = Hal.InteractiveRandom();
+				int r = HAL.InteractiveRandom();
 				//byte *a = &_cur_playlist[BitOps.GB(r, 0, 5)];
 				//byte *b = &_cur_playlist[BitOps.GB(r, 8, 5)];
 				int a = BitOps.GB(r, 0, 5);
@@ -287,7 +287,7 @@ public class MusicGui
 				SelectSongToPlay();
 				break;
 			case 12: /* save */
-				Hal.ShowInfo("MusicTrackSelectionWndProc:save not implemented\n");
+				HAL.ShowInfo("MusicTrackSelectionWndProc:save not implemented\n");
 				break;
 			case 5: case 6: case 7: case 8: case 9: case 10: /* set playlist */
 				msf.playlist = e.widget - 5;

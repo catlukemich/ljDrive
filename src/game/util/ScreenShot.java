@@ -1,7 +1,7 @@
 package game.util;
 
 import game.Global;
-import game.Hal;
+import game.HAL;
 import game.Player;
 import game.Str;
 import game.enums.GameModes;
@@ -53,12 +53,12 @@ public class ScreenShot
 	// screenshot generator that dumps the current video buffer
 	static void CurrentScreenCallback(Object userdata, Pixel buf, int y, int pitch, int n)
 	{
-		Pixel src = new Pixel(Hal._screen.dst_ptr);
-		buf.copyFrom(Hal._screen.dst_ptr, n);
+		Pixel src = new Pixel(HAL._screen.dst_ptr);
+		buf.copyFrom(HAL._screen.dst_ptr, n);
 		for (; n > 0; --n) {
 			//memcpy(buf, Hal._screen.dst_ptr + y * _screen.pitch, _screen.width);
-			src.setPos(y * Hal._screen.pitch);
-			buf.copyFrom(src, Hal._screen.width);
+			src.setPos(y * HAL._screen.pitch);
+			buf.copyFrom(src, HAL._screen.width);
 			++y;
 			//buf += pitch;
 			buf.shift(pitch);
@@ -71,8 +71,8 @@ public class ScreenShot
 		ViewPort vp = (ViewPort)userdata;
 		DrawPixelInfo dpi = new DrawPixelInfo();
 
-		DrawPixelInfo old_dpi = Hal._cur_dpi;
-		Hal._cur_dpi = dpi;
+		DrawPixelInfo old_dpi = HAL._cur_dpi;
+		HAL._cur_dpi = dpi;
 
 		dpi.dst_ptr = buf;
 		dpi.height = n;
@@ -96,7 +96,7 @@ public class ScreenShot
 			);
 		}
 
-		Hal._cur_dpi = old_dpi;
+		HAL._cur_dpi = old_dpi;
 	}
 
 	static String filename; //[256];
@@ -134,7 +134,7 @@ public class ScreenShot
 	public static boolean MakeScreenshot()
 	{
 		final ScreenshotFormat sf = _screenshot_formats[_cur_screenshot_format];
-		return sf.proc(MakeScreenshotName(sf.extension), ScreenShot::CurrentScreenCallback, null, Hal._screen.width, Hal._screen.height, 8, Gfx._cur_palette);
+		return sf.proc(MakeScreenshotName(sf.extension), ScreenShot::CurrentScreenCallback, null, HAL._screen.width, HAL._screen.height, 8, Gfx._cur_palette);
 	}
 
 	public static boolean MakeWorldScreenshot(int left, int top, int width, int height, int zoom)

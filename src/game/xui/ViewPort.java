@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 
 import game.AirCraft;
 import game.Global;
-import game.Hal;
+import game.HAL;
 import game.Landscape;
 import game.SignStruct;
 import game.Sprite;
@@ -340,7 +340,7 @@ public class ViewPort implements Serializable
 				left = 0;
 			}
 
-			i = left + width - Hal._screen.width;
+			i = left + width - HAL._screen.width;
 			if (i >= 0) width -= i;
 
 			if (width > 0) {
@@ -349,7 +349,7 @@ public class ViewPort implements Serializable
 					top = 0;
 				}
 
-				i = top + height - Hal._screen.height;
+				i = top + height - HAL._screen.height;
 				if (i >= 0) height -= i;
 
 				// Window wnext = w.getNextWindow?
@@ -358,7 +358,7 @@ public class ViewPort implements Serializable
 				if (height > 0)
 				{
 					DoSetViewportPosition(w, left, top, width, height);
-					Hal.MarkWholeScreenDirty(); // TODO [dz] added, was not here in C code, why? 
+					HAL.MarkWholeScreenDirty(); // TODO [dz] added, was not here in C code, why? 
 				}
 			}
 	}
@@ -421,7 +421,7 @@ public class ViewPort implements Serializable
 
 	static Point GetTileBelowCursor()
 	{
-		return GetTileFromScreenXY(Hal._cursor.pos.x, Hal._cursor.pos.y, Hal._cursor.pos.x, Hal._cursor.pos.y);
+		return GetTileFromScreenXY(HAL._cursor.pos.x, HAL._cursor.pos.y, HAL._cursor.pos.x, HAL._cursor.pos.y);
 	}
 
 
@@ -433,14 +433,14 @@ public class ViewPort implements Serializable
 		vp = w.getViewport();
 
 		if (in) {
-			x = ((Hal._cursor.pos.x - vp.left) >> 1) + (vp.width >> 2);
-			y = ((Hal._cursor.pos.y - vp.top) >> 1) + (vp.height >> 2);
+			x = ((HAL._cursor.pos.x - vp.left) >> 1) + (vp.width >> 2);
+			y = ((HAL._cursor.pos.y - vp.top) >> 1) + (vp.height >> 2);
 		} else {
-			x = vp.width - (Hal._cursor.pos.x - vp.left);
-			y = vp.height - (Hal._cursor.pos.y - vp.top);
+			x = vp.width - (HAL._cursor.pos.x - vp.left);
+			y = vp.height - (HAL._cursor.pos.y - vp.top);
 		}
 		/* Get the tile below the cursor and center on the zoomed-out center */
-		return GetTileFromScreenXY(Hal._cursor.pos.x, Hal._cursor.pos.y, x + vp.left, y + vp.top);
+		return GetTileFromScreenXY(HAL._cursor.pos.x, HAL._cursor.pos.y, x + vp.left, y + vp.top);
 	}
 
 	public static void DrawGroundSpriteAt(int image, int x, int y, int z)
@@ -718,7 +718,7 @@ public class ViewPort implements Serializable
 					z += 8;
 					if (0 == (ti.tileh & 2) && (TileIndex.IsSteepTileh(ti.tileh))) z += 8;
 				}
-				DrawGroundSpriteAt(Hal._cur_dpi.zoom != 2 ? Sprite.SPR_DOT : Sprite.SPR_DOT_SMALL, ti.x, ti.y, z);
+				DrawGroundSpriteAt(HAL._cur_dpi.zoom != 2 ? Sprite.SPR_DOT : Sprite.SPR_DOT_SMALL, ti.x, ti.y, z);
 			} else if( 0 != (_thd.drawstyle & HT_RAIL /*&& _thd.place_mode == VHM_RAIL*/)) {
 				// autorail highlight piece under cursor
 				int type = _thd.drawstyle & 0xF;
@@ -1329,7 +1329,7 @@ public class ViewPort implements Serializable
 		DrawPixelInfo dp = new DrawPixelInfo();
 		int zoom;
 
-		Hal._cur_dpi = dp;
+		HAL._cur_dpi = dp;
 		dp.assignFrom( dpi );
 
 		zoom = dp.zoom;
@@ -1390,7 +1390,7 @@ public class ViewPort implements Serializable
 			//	ss = ss.next;
 		}// while (ss != null);
 
-		Hal._cur_dpi = dpi;
+		HAL._cur_dpi = dpi;
 	}
 
 	public static void ViewportDoDraw(final ViewPort vp, int left, int top, int right, int bottom)
@@ -1403,8 +1403,8 @@ public class ViewPort implements Serializable
 
 		_cur_vd = vd;
 
-		old_dpi = Hal._cur_dpi;
-		Hal._cur_dpi = vd.dpi;
+		old_dpi = HAL._cur_dpi;
+		HAL._cur_dpi = vd.dpi;
 
 		vd.dpi.zoom = vp.zoom;
 		mask = (-1) << vp.zoom;
@@ -1461,7 +1461,7 @@ public class ViewPort implements Serializable
 
 		ViewportDrawStrings(vd.dpi, vd.string_list);
 
-		Hal._cur_dpi = old_dpi;
+		HAL._cur_dpi = old_dpi;
 	}
 
 	// Make sure we don't draw a too big area at a time.
@@ -1507,7 +1507,7 @@ public class ViewPort implements Serializable
 
 	static void DrawWindowViewport(Window w)
 	{
-		DrawPixelInfo dpi = Hal._cur_dpi;
+		DrawPixelInfo dpi = HAL._cur_dpi;
 
 		dpi.left += w.left;
 		dpi.top += w.top;
@@ -2013,8 +2013,8 @@ public class ViewPort implements Serializable
 		final Window  w;
 		final ViewPort  vp;
 
-		int x = Hal._cursor.pos.x;
-		int y = Hal._cursor.pos.y;
+		int x = HAL._cursor.pos.x;
+		int y = HAL._cursor.pos.y;
 
 		w = Window.FindWindowFromPt(x, y);
 		if (w == null) return null;
@@ -2532,9 +2532,9 @@ public class ViewPort implements Serializable
 			VpStartPreSizing();
 
 		if ( icon < 0)
-			Hal.SetAnimatedMouseCursor(AnimCursor._animcursors[~icon]);
+			HAL.SetAnimatedMouseCursor(AnimCursor._animcursors[~icon]);
 		else
-			Hal.SetMouseCursor( CursorID.get(icon) );
+			HAL.SetMouseCursor( CursorID.get(icon) );
 	}
 
 	public static void ResetObjectToPlace()

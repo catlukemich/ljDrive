@@ -495,7 +495,7 @@ public class Ship {
 
 			/* if we reach this position, there's two paths of equal value so far.
 			 * pick one randomly. */
-			int r = BitOps.GB(Hal.Random(), 0, 8);
+			int r = BitOps.GB(HAL.Random(), 0, 8);
 			if (_pick_shiptrack_table[i] == ship_dir) r += 80;
 			if (_pick_shiptrack_table[best_track] == ship_dir) r -= 80;
 			if (r <= 127) return false;

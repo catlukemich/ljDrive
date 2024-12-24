@@ -701,7 +701,7 @@ public class Industry extends IndustryTables implements IPoolItem, Serializable
 	{
 		Sound.SndPlayTileFx(Snd.SND_2E_EXTRACT_AND_POP, tile);
 
-		int dir = Hal.Random() & 3;
+		int dir = HAL.Random() & 3;
 
 		Vehicle v = Vehicle.CreateEffectVehicleAbove(
 				tile.TileX() * 16 + _tileloop_ind_case_161[dir + 0],
@@ -943,7 +943,7 @@ public class Industry extends IndustryTables implements IPoolItem, Serializable
 		}
 
 		/* determine field size */
-		int r = (Hal.Random() & 0x303) + 0x404;
+		int r = (HAL.Random() & 0x303) + 0x404;
 		if (GameOptions._opt.landscape == Landscape.LT_HILLY) r += 0x404;
 		
 		int size_x = BitOps.GB(r, 0, 8);
@@ -965,7 +965,7 @@ public class Industry extends IndustryTables implements IPoolItem, Serializable
 		if (count[0] * 2 >= size_x * size_y) return;
 
 		/* determine type of field */
-		r = Hal.Random();
+		r = HAL.Random();
 		int type = ((r & 0xE0) | 0xF);
 		int type2 = BitOps.GB(r, 8, 8) * 9 >> 8;
 
@@ -989,7 +989,7 @@ public class Industry extends IndustryTables implements IPoolItem, Serializable
 
 		type = 3;
 		if (GameOptions._opt.landscape != Landscape.LT_HILLY && GameOptions._opt.landscape != Landscape.LT_DESERT) {
-			type = _plantfarmfield_type[Hal.Random() & 0xF];
+			type = _plantfarmfield_type[HAL.Random() & 0xF];
 		}
 
 		SetupFarmFieldFence(tile.isub( TileIndex.TileDiffXY(1, 0)), size_y, type, 1);
@@ -1001,8 +1001,8 @@ public class Industry extends IndustryTables implements IPoolItem, Serializable
 	static void MaybePlantFarmField(final Industry  i)
 	{
 		if (BitOps.CHANCE16(1, 8)) {
-			int x = i.width  / 2 + Hal.Random() % 31 - 16;
-			int y = i.height / 2 + Hal.Random() % 31 - 16;
+			int x = i.width  / 2 + HAL.Random() % 31 - 16;
+			int y = i.height / 2 + HAL.Random() % 31 - 16;
 			TileIndex tile = new TileIndex(i.xy).TileAddWrap(x, y);
 			if (tile.isValid()) PlantFarmField(tile);
 		}
@@ -1463,14 +1463,14 @@ public class Industry extends IndustryTables implements IPoolItem, Serializable
 		i.production_rate[1] = spec.production_rate[1];
 
 		if (Global._patches.smooth_economy.get()) {
-			i.production_rate[0] =  Math.min((Hal.RandomRange(256) + 128) * i.production_rate[0] >> 8 , 255);
-			i.production_rate[1] =  Math.min((Hal.RandomRange(256) + 128) * i.production_rate[1] >> 8 , 255);
+			i.production_rate[0] =  Math.min((HAL.RandomRange(256) + 128) * i.production_rate[0] >> 8 , 255);
+			i.production_rate[1] =  Math.min((HAL.RandomRange(256) + 128) * i.production_rate[1] >> 8 , 255);
 		}
 
 		i.townId = t.index;
 		i.owner =  owner;
 
-		r = Hal.Random();
+		r = HAL.Random();
 		i.color_map =  BitOps.GB(r, 8, 4);
 		i.counter = BitOps.GB(r, 0, 12);
 		i.cargo_waiting[0] = 0;
@@ -1525,8 +1525,8 @@ public class Industry extends IndustryTables implements IPoolItem, Serializable
 		if (i.type == IT_FARM || i.type == IT_FARM_2) {
 			tile = i.xy.iadd(i.width / 2, i.height / 2);
 			for (j = 0; j != 50; j++) {
-				int x = Hal.Random() % 31 - 16;
-				int y = Hal.Random() % 31 - 16;
+				int x = HAL.Random() % 31 - 16;
+				int y = HAL.Random() % 31 - 16;
 				TileIndex new_tile = tile.TileAddWrap(x, y);
 
 				if (new_tile != TileIndex.INVALID_TILE) PlantFarmField(new_tile);
@@ -1629,7 +1629,7 @@ public class Industry extends IndustryTables implements IPoolItem, Serializable
 		if (t == null) return null;
 
 		/* pick a random layout */
-		final IndustryTileTable [] it = spec.table[Hal.RandomRange(spec.table.length)];
+		final IndustryTileTable [] it = spec.table[HAL.RandomRange(spec.table.length)];
 
 		if (!CheckIfIndustryTilesAreFree(tile, it, type, t)) return null;
 		if (!CheckIfTooCloseToIndustry(tile, type)) return null;
@@ -1667,7 +1667,7 @@ public class Industry extends IndustryTables implements IPoolItem, Serializable
 
 			do {
 				for (int i = 0; i < 2000; i++) {
-					if (CreateNewIndustry(Hal.RandomTile(), type) != null) break;
+					if (CreateNewIndustry(HAL.RandomTile(), type) != null) break;
 				}
 			} while (--num > 0);
 
@@ -1702,15 +1702,15 @@ public class Industry extends IndustryTables implements IPoolItem, Serializable
 
 		default: /* INDUSTRY_PRODUCTION */
 			for (j = 0; j < 2 && i.produced_cargo[j] != AcceptedCargo.CT_INVALID; j++){
-				int r = Hal.Random();
+				int r = HAL.Random();
 				int old, inew, percent;
 				int mag;
 
 				inew = old = i.production_rate[j];
 				if (BitOps.CHANCE16I(20, 1024, r))
-					inew -= ((Hal.RandomRange(50) + 10) * old) >> 8;
+					inew -= ((HAL.RandomRange(50) + 10) * old) >> 8;
 			if (BitOps.CHANCE16I(20 + (i.pct_transported[j] * 20 >> 8), 1024, r >> 16))
-				inew += ((Hal.RandomRange(50) + 10) * old) >> 8;
+				inew += ((HAL.RandomRange(50) + 10) * old) >> 8;
 
 				inew = BitOps.clamp(inew, 0, 255);
 				if (inew == old) {
@@ -1816,7 +1816,7 @@ public class Industry extends IndustryTables implements IPoolItem, Serializable
 
 		j = 2000;
 		for (;;) {
-			i = CreateNewIndustry(Hal.RandomTile(), type);
+			i = CreateNewIndustry(HAL.RandomTile(), type);
 			if (i != null) break;
 			if (--j == 0) return;
 		}
@@ -1909,9 +1909,9 @@ public class Industry extends IndustryTables implements IPoolItem, Serializable
 
 		/* 3% chance that we start a new industry */
 		if (BitOps.CHANCE16(3, 100)) {
-			MaybeNewIndustry(Hal.Random());
+			MaybeNewIndustry(HAL.Random());
 		} else if (!Global._patches.smooth_economy.get() && _total_industries > 0) {
-			Industry i = GetIndustry(Hal.RandomRange(_total_industries));
+			Industry i = GetIndustry(HAL.RandomRange(_total_industries));
 			if (i != null && i.isValid()) ChangeIndustryProduction(i);
 		}
 

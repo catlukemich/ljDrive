@@ -158,7 +158,7 @@ public class MainWindow extends JPanel implements ActionListener
 
 		//frame.addMouseWheelListener( (e) -> {
 		this.addMouseWheelListener( (e) -> {
-			Hal._cursor.setWheel( e.getWheelRotation() );
+			HAL._cursor.setWheel( e.getWheelRotation() );
 			e.consume();
 		});
 
@@ -201,7 +201,7 @@ public class MainWindow extends JPanel implements ActionListener
 		menuItemTranspBuildings.addActionListener( e -> 
 		{ 
 			Global._display_opt ^= Global.DO_TRANS_BUILDINGS;
-			Hal.MarkWholeScreenDirty();
+			HAL.MarkWholeScreenDirty();
 		});
 		viewMenu.add(menuItemTranspBuildings);
 
@@ -511,7 +511,7 @@ public class MainWindow extends JPanel implements ActionListener
 
 	private void processMouse(int x, int y) 
 	{
-		Hal._cursor.processMouse(x, y);
+		HAL._cursor.processMouse(x, y);
 	}
 
 

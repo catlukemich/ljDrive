@@ -460,7 +460,7 @@ public class NewTrackPathFinder extends Pathfind
 			if (si.depth == 1) {
 				assert(tpf.nstack == 1 || tpf.nstack == 2 || tpf.nstack == 3);
 				if (tpf.nstack != 1) {
-					int r = Hal.Random();
+					int r = HAL.Random();
 					if(0!=(r&1))
 					{
 						//swap_byte(&tpf.stack[0].track, &tpf.stack[1].track);

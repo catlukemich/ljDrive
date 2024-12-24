@@ -16,7 +16,13 @@ import game.xui.DrawPixelInfo;
 import game.xui.Gfx;
 import game.xui.Window;
 
-public class Hal
+
+/**
+ * Hardware Abstraction Layer.
+ * 
+ * Perhaps would be usefull to subclass for other OS ports.
+ */
+public class HAL
 {
 	MainWindow mw = null;
 

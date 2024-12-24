@@ -74,7 +74,7 @@ public class Tree extends TreeTables {
 		int i;
 
 		for (i = 0; i < 1000; i++) {
-			int r = Hal.Random();
+			int r = HAL.Random();
 			int x = BitOps.GB(r, 0, 5) - 16;
 			int y = BitOps.GB(r, 8, 5) - 16;
 
@@ -93,7 +93,7 @@ public class Tree extends TreeTables {
 
 	static void PlaceMoreTrees()
 	{
-		int i = Map.ScaleByMapSize(BitOps.GB(Hal.Random(), 0, 5) + 25);
+		int i = Map.ScaleByMapSize(BitOps.GB(HAL.Random(), 0, 5) + 25);
 		do {
 			DoPlaceMoreTrees(TileIndex.RandomTile());
 		} while (--i > 0);
@@ -105,7 +105,7 @@ public class Tree extends TreeTables {
 
 		i = Map.ScaleByMapSize(1000);
 		do {
-			int r = Hal.Random();
+			int r = HAL.Random();
 			//TileIndex tile = TileIndex.RandomTileSeed(r);
 			TileIndex tile = TileIndex.RandomTile();
 			/* Only on clear tiles, and NOT on farm-tiles or rocks */
@@ -119,7 +119,7 @@ public class Tree extends TreeTables {
 			i = Map.ScaleByMapSize(15000);
 
 			do {
-				int r = Hal.Random();
+				int r = HAL.Random();
 				TileIndex tile = TileIndex.RandomTileSeed(r);
 				if (tile.IsTileType( TileTypes.MP_CLEAR) && tile.GetMapExtraBits() == 2) {
 					PlaceTree(tile, r, 0);
@@ -227,7 +227,7 @@ public class Tree extends TreeTables {
 
 						treetype = p1;
 						if (treetype == -1) {
-							treetype = GetRandomTreeType(tile, BitOps.GB(Hal.Random(), 24, 8));
+							treetype = GetRandomTreeType(tile, BitOps.GB(HAL.Random(), 24, 8));
 							if (treetype == -1) treetype = 27;
 						}
 
@@ -437,7 +437,7 @@ public class Tree extends TreeTables {
 		int b =  tile.GetMapExtraBits();
 
 		if (b == 2) {
-			int r = Hal.Random();
+			int r = HAL.Random();
 			if (BitOps.CHANCE16I(1, 200, r)) Sound.SndPlayTileFx(forest_sounds[BitOps.GB(r, 16, 2)], tile);
 
 		} else if (b == TileInfo.EXTRABITS_DESERT) {
@@ -473,7 +473,7 @@ public class Tree extends TreeTables {
 			if (tmp == m2) return;
 		} else {
 			if (tmp == 0xE0) {
-				int r = Hal.Random();
+				int r = HAL.Random();
 				if (BitOps.CHANCE16I(1, 200, r)) {
 					Sound.SndPlayTileFx((r & 0x80000000) != 0 ? Snd.SND_39_HEAVY_WIND : Snd.SND_34_WIND, tile);
 				}
@@ -524,7 +524,7 @@ public class Tree extends TreeTables {
 			if (GameOptions._opt.landscape == Landscape.LT_DESERT && tile.getMap().m3 != 0x1B && tile.GetMapExtraBits() == 1) {
 				m5++; /* start destructing */
 			} else {
-				switch (BitOps.GB(Hal.Random(), 0, 3)) {
+				switch (BitOps.GB(HAL.Random(), 0, 3)) {
 				case 0: /* start destructing */
 					m5++;
 					break;
@@ -540,7 +540,7 @@ public class Tree extends TreeTables {
 					int m3 = tile.getMap().m3;
 
 					//tile += TileIndex.ToTileIndexDiff(_tileloop_trees_dir[Hal.Random() & 7]);
-					tile = tile.iadd( TileIndex.ToTileIndexDiff(_tileloop_trees_dir[Hal.Random() & 7]) );
+					tile = tile.iadd( TileIndex.ToTileIndexDiff(_tileloop_trees_dir[HAL.Random() & 7]) );
 
 					if (!tile.IsTileType( TileTypes.MP_CLEAR)) return;
 
@@ -602,7 +602,7 @@ public class Tree extends TreeTables {
 		/* place a tree at a random rainforest spot */
 		if (GameOptions._opt.landscape == Landscape.LT_DESERT )
 		{
-			r = Hal.Random();
+			r = HAL.Random();
 			tile = TileIndex.RandomTileSeed(r);
 			m = tile.getMap().m5 & 0x1C;
 			if(
@@ -628,7 +628,7 @@ public class Tree extends TreeTables {
 		_trees_tick_ctr = 0x7F;
 
 		/* place a tree at a random spot */
-		r = Hal.Random();
+		r = HAL.Random();
 		tile = new TileIndex( TileIndex.TILE_MASK(r) );
 		if (tile.IsTileType(TileTypes.MP_CLEAR)) 
 		{

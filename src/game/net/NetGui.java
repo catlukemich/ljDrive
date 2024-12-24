@@ -5,7 +5,7 @@ import java.net.UnknownHostException;
 import java.util.Iterator;
 
 import game.Global;
-import game.Hal;
+import game.HAL;
 import game.Main;
 import game.Sprite;
 import game.Str;
@@ -548,7 +548,7 @@ public class NetGui extends Net implements NetDefs
 				_network_server_name = w.as_querystr_d().text.getString();
 				w.as_querystr_d().text.UpdateTextBufferSize();
 				if (_selected_map == null) { // start random new game
-					IntroGui.GenRandomNewGame(Hal.Random(), Hal.InteractiveRandom());
+					IntroGui.GenRandomNewGame(HAL.Random(), HAL.InteractiveRandom());
 				} else { // load a scenario
 					String name = FileIO.FiosBrowseTo(_selected_map);
 					if (name != null) {
@@ -557,7 +557,7 @@ public class NetGui extends Net implements NetDefs
 						Main._file_to_saveload.title = _selected_map.title;
 
 						w.DeleteWindow();
-						IntroGui.StartScenarioEditor(Hal.Random(), Hal.InteractiveRandom());
+						IntroGui.StartScenarioEditor(HAL.Random(), HAL.InteractiveRandom());
 					}
 				}
 				break;

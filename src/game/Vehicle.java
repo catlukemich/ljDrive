@@ -1053,7 +1053,7 @@ public class Vehicle implements IPoolItem
 	 */
 	public static int VehicleRandomBits()
 	{
-		return  BitOps.GB(Hal.Random(), 0, 8);
+		return  BitOps.GB(HAL.Random(), 0, 8);
 	}
 
 	public static Vehicle ForceAllocateSpecialVehicle()
@@ -1532,7 +1532,7 @@ public class Vehicle implements IPoolItem
 
 	static void ChimneySmokeInit(Vehicle v)
 	{
-		int r = Hal.Random();
+		int r = HAL.Random();
 		v.cur_image = Sprite.SPR_CHIMNEY_SMOKE_0 + BitOps.GB(r, 0, 3);
 		v.progress = BitOps.GB(r, 16, 3);
 	}
@@ -2015,7 +2015,7 @@ public class Vehicle implements IPoolItem
 				return;
 			}
 			if (v.special.unk2 != 0) {
-				v.spritenum =  (BitOps.GB(Hal.InteractiveRandom(), 0, 2) + 1);
+				v.spritenum =  (BitOps.GB(HAL.InteractiveRandom(), 0, 2) + 1);
 			} else {
 				v.spritenum = 6;
 			}
@@ -2033,7 +2033,7 @@ public class Vehicle implements IPoolItem
 		}
 
 		if (b.y == 4 && b.x == 1) {
-			if (v.z_pos > 180 || BitOps.CHANCE16I(1, 96, Hal.InteractiveRandom())) {
+			if (v.z_pos > 180 || BitOps.CHANCE16I(1, 96, HAL.InteractiveRandom())) {
 				v.spritenum = 5;
 				v.SndPlayVehicleFx(Snd.SND_2F_POP);
 			}
@@ -2209,7 +2209,7 @@ public class Vehicle implements IPoolItem
 			return;
 		}
 
-		r = Hal.Random();
+		r = HAL.Random();
 
 		/* increase chance of failure */
 		chance = v.breakdown_chance + 1;
@@ -2651,7 +2651,7 @@ public class Vehicle implements IPoolItem
 			v.string_id = str.id;
 			Global.DeleteName(old_str);
 			VehicleGui.ResortVehicleLists();
-			Hal.MarkWholeScreenDirty();
+			HAL.MarkWholeScreenDirty();
 		} else {
 			Global.DeleteName(str);
 		}

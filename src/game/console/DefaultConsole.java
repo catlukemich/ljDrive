@@ -1,7 +1,7 @@
 package game.console;
 
 import game.Global;
-import game.Hal;
+import game.HAL;
 import game.console.commands.Alias;
 import game.console.commands.AliasRegistry;
 import game.console.commands.Command;
@@ -214,15 +214,15 @@ public class DefaultConsole implements Console//extends ConsoleCmds
 
 		switch (_iconsole_mode) {
 		case ICONSOLE_OPENED:
-			_iconsole_win.setSize(Hal.getScreenWidth(), Hal.getScreenHeight() / 3);
+			_iconsole_win.setSize(HAL.getScreenWidth(), HAL.getScreenHeight() / 3);
 			break;
 		case ICONSOLE_FULL:
-			_iconsole_win.setSize(Hal.getScreenWidth(), Hal.getScreenHeight() - ICON_BOTTOM_BORDERWIDTH );
+			_iconsole_win.setSize(HAL.getScreenWidth(), HAL.getScreenHeight() - ICON_BOTTOM_BORDERWIDTH );
 			break;
 		default: break;
 		}
 
-		Hal.MarkWholeScreenDirty();
+		HAL.MarkWholeScreenDirty();
 	}
 
 	/**
@@ -233,7 +233,7 @@ public class DefaultConsole implements Console//extends ConsoleCmds
 		switch (_iconsole_mode) {
 		case ICONSOLE_CLOSED:
 			_iconsole_win = Window.AllocateWindowDesc(_iconsole_window_desc,0);
-			_iconsole_win.setSize(Hal.getScreenWidth(), Hal.getScreenHeight() / 3);
+			_iconsole_win.setSize(HAL.getScreenWidth(), HAL.getScreenHeight() / 3);
 			_iconsole_mode = IConsoleModes.ICONSOLE_OPENED;
 			Global._no_scroll = BitOps.RETSETBIT(Global._no_scroll, Global.SCROLL_CON); // override cursor arrows; the gamefield will not scroll
 			break;
@@ -245,7 +245,7 @@ public class DefaultConsole implements Console//extends ConsoleCmds
 			break;
 		}
 
-		Hal.MarkWholeScreenDirty();
+		HAL.MarkWholeScreenDirty();
 	}
 
 	@Override
@@ -746,10 +746,10 @@ public class DefaultConsole implements Console//extends ConsoleCmds
 			case Window.WKC_CTRL | Window.WKC_RETURN:
 				_iconsole_mode = (_iconsole_mode == IConsoleModes.ICONSOLE_FULL) ? IConsoleModes.ICONSOLE_OPENED : IConsoleModes.ICONSOLE_FULL;
 				resize();
-				Hal.MarkWholeScreenDirty();
+				HAL.MarkWholeScreenDirty();
 				break;
 			case (Window.WKC_CTRL | 'V'):
-				if (Hal.InsertTextBufferClipboard(_iconsole_cmdline)) {
+				if (HAL.InsertTextBufferClipboard(_iconsole_cmdline)) {
 					IConsoleResetHistoryPos();
 					w.SetWindowDirty();
 				}

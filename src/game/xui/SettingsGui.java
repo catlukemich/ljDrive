@@ -8,7 +8,7 @@ import game.Engine;
 import game.GRFFile;
 import game.GameOptions;
 import game.Global;
-import game.Hal;
+import game.HAL;
 import game.Sprite;
 import game.Str;
 import game.Town;
@@ -183,26 +183,26 @@ public class SettingsGui extends SettingsTables
 			case 20: /* Vehicle design names */
 				if (e.index == 0) {
 					Engine.DeleteCustomEngineNames();
-					Hal.MarkWholeScreenDirty();
+					HAL.MarkWholeScreenDirty();
 				} else if (0==(Global._vehicle_design_names & 1)) {
 					Engine.LoadCustomEngineNames();
-					Hal.MarkWholeScreenDirty();
+					HAL.MarkWholeScreenDirty();
 				}
 				break;
 			case 5: /* Currency */
 				if (e.index == 23)
 					ShowCustCurrency();
 				GameOptions._opt_ptr.currency =  e.index;
-				Hal.MarkWholeScreenDirty();
+				HAL.MarkWholeScreenDirty();
 				break;
 			case 8: /* Distance units */
 				GameOptions._opt_ptr.kilometers = e.index != 0;
-				Hal.MarkWholeScreenDirty();
+				HAL.MarkWholeScreenDirty();
 				break;
 			case 11: /* Road side */
 				if (GameOptions._opt_ptr.road_side != e.index) { // only change if setting changed
 					Cmd.DoCommandP(null, e.index, 0, null, Cmd.CMD_SET_ROAD_DRIVE_SIDE | Cmd.CMD_MSG(Str.STR_00B4_CAN_T_DO_THIS));
-					Hal.MarkWholeScreenDirty();
+					HAL.MarkWholeScreenDirty();
 				}
 				break;
 			case 14: /* Town names */
@@ -217,7 +217,7 @@ public class SettingsGui extends SettingsTables
 				break;
 			case 24: /* Change interface language */
 				Strings.ReadLanguagePack(e.index);
-				Hal.MarkWholeScreenDirty();
+				HAL.MarkWholeScreenDirty();
 				break;
 			case 27: /* Change resolution */
 				// TODO if (e.index < _num_resolutions && ChangeResInGame(_resolutions[e.index][0],_resolutions[e.index][1])) w.SetWindowDirty();
@@ -601,7 +601,7 @@ public class SettingsGui extends SettingsTables
 
 	static int InvisibleTreesActive(int p1)
 	{
-		Hal.MarkWholeScreenDirty();
+		HAL.MarkWholeScreenDirty();
 		return 0;
 	}
 
@@ -1354,7 +1354,7 @@ public class SettingsGui extends SettingsTables
 				_custom_currency().to_euro = val;
 				break;
 			}
-			Hal.MarkWholeScreenDirty();
+			HAL.MarkWholeScreenDirty();
 
 
 		} break;
@@ -1366,7 +1366,7 @@ public class SettingsGui extends SettingsTables
 
 		case WE_DESTROY:
 			Window.DeleteWindowById(Window.WC_QUERY_STRING, 0);
-			Hal.MarkWholeScreenDirty();
+			HAL.MarkWholeScreenDirty();
 			break;
 		default:
 			break;

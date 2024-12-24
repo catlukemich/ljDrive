@@ -507,7 +507,7 @@ public class Window extends WindowConstants implements Serializable
 	static void DrawOverlappedWindowForAll(int left, int top, int right, int bottom)
 	{
 		DrawPixelInfo bk = new DrawPixelInfo();
-		Hal._cur_dpi = bk;
+		HAL._cur_dpi = bk;
 
 		for (Window w : Global.gs._windows) {
 			if (right > w.left &&
@@ -566,14 +566,14 @@ public class Window extends WindowConstants implements Serializable
 		}
 
 		{
-			DrawPixelInfo dp = Hal._cur_dpi;
+			DrawPixelInfo dp = HAL._cur_dpi;
 			dp.width = right - left;
 			dp.height = bottom - top;
 			dp.left = left - w.left;
 			dp.top = top - w.top;
-			dp.pitch = Hal._screen.pitch;
+			dp.pitch = HAL._screen.pitch;
 			//dp.dst_ptr = Hal._screen.dst_ptr + top * Hal._screen.pitch + left;
-			dp.dst_ptr = new Pixel( Hal._screen.dst_ptr, top * Hal._screen.pitch + left );
+			dp.dst_ptr = new Pixel( HAL._screen.dst_ptr, top * HAL._screen.pitch + left );
 			dp.zoom = 0;
 			w.CallWindowEventNP(WindowEvents.WE_PAINT);
 		}
@@ -940,12 +940,12 @@ public class Window extends WindowConstants implements Serializable
 		int x;
 
 		w = FindWindowById(exist_class, exist_num);
-		if (w == null || w.left >= (Hal._screen.width-20) || w.left <= -60 || w.top >= (Hal._screen.height-20)) {
+		if (w == null || w.left >= (HAL._screen.width-20) || w.left <= -60 || w.top >= (HAL._screen.height-20)) {
 			return AllocateWindowAutoPlace(width,height,proc,cls,widget);
 		}
 
 		x = w.left;
-		if (x > Hal._screen.width - width) x = Hal._screen.width - width - 20;
+		if (x > HAL._screen.width - width) x = HAL._screen.width - width - 20;
 
 		return AllocateWindow(x + 10, w.top + 10, width, height, proc, cls, widget);
 	}
@@ -964,7 +964,7 @@ public class Window extends WindowConstants implements Serializable
 		right = _awap_r.width + left;
 		bottom = _awap_r.height + top;
 
-		if (left < 0 || top < 22 || right > Hal._screen.width || bottom > Hal._screen.height)
+		if (left < 0 || top < 22 || right > HAL._screen.width || bottom > HAL._screen.height)
 			return false;
 
 		// Make sure it is not obscured by any window.
@@ -992,9 +992,9 @@ public class Window extends WindowConstants implements Serializable
 		width = _awap_r.width;
 		height = _awap_r.height;
 
-		if (left < -(width>>2) || left > Hal._screen.width - (width>>1))
+		if (left < -(width>>2) || left > HAL._screen.width - (width>>1))
 			return false;
-		if (top < 22 || top > Hal._screen.height - (height>>2))
+		if (top < 22 || top > HAL._screen.height - (height>>2))
 			return false;
 
 		// Make sure it is not obscured by any window.
@@ -1160,7 +1160,7 @@ public class Window extends WindowConstants implements Serializable
 	{
 		Point pt = new Point(0,0);
 		Window w = null;
-		final DrawPixelInfo _screen = Hal._screen;
+		final DrawPixelInfo _screen = HAL._screen;
 
 		//if (desc.parent_cls != WC_MAIN_WINDOW &&
 		//		(w = FindWindowById(desc.parent_cls, _alloc_wnd_parent_num), _alloc_wnd_parent_num=0, w) != null &&
@@ -1321,8 +1321,8 @@ public class Window extends WindowConstants implements Serializable
 		if (w != null) {
 			// send an event in client coordinates.
 			e.event = WindowEvents.WE_DRAGDROP;
-			e.pt.x = Hal._cursor.pos.x - w.left;
-			e.pt.y = Hal._cursor.pos.y - w.top;
+			e.pt.x = HAL._cursor.pos.x - w.left;
+			e.pt.y = HAL._cursor.pos.y - w.top;
 			e.widget = w.GetWidgetFromPos(e.pt.x, e.pt.y);
 			w.wndproc.accept(w, e);
 		}
@@ -1342,7 +1342,7 @@ public class Window extends WindowConstants implements Serializable
 			return false;
 		}
 
-		e.pt = Hal._cursor.pos;
+		e.pt = HAL._cursor.pos;
 		if (_left_button_down) {
 			e.event = WindowEvents.WE_POPUPMENU_OVER;
 		} else {
@@ -1361,7 +1361,7 @@ public class Window extends WindowConstants implements Serializable
 		Window w;
 		WindowEvent e = new WindowEvent();
 
-		w = FindWindowFromPt(Hal._cursor.pos.x, Hal._cursor.pos.y);
+		w = FindWindowFromPt(HAL._cursor.pos.x, HAL._cursor.pos.y);
 
 		// We changed window, put a MOUSEOVER event to the last window
 		if (last_w != null && last_w != w) {
@@ -1377,7 +1377,7 @@ public class Window extends WindowConstants implements Serializable
 			e.event = WindowEvents.WE_MOUSEOVER;
 			//e.pt.x = Hal._cursor.pos.x - w.left;
 			//e.pt.y = Hal._cursor.pos.y - w.top;
-			e.pt = new Point( Hal._cursor.pos.x - w.left, Hal._cursor.pos.y - w.top );
+			e.pt = new Point( HAL._cursor.pos.x - w.left, HAL._cursor.pos.y - w.top );
 			if (w.widget != null) {
 				e.widget = w.GetWidgetFromPos(e.pt.x, e.pt.y);
 			}
@@ -1414,8 +1414,8 @@ public class Window extends WindowConstants implements Serializable
 
 				w.SetWindowDirty();
 
-				x = Hal._cursor.pos.x + _drag_delta.x;
-				y = Hal._cursor.pos.y + _drag_delta.y;
+				x = HAL._cursor.pos.x + _drag_delta.x;
+				y = HAL._cursor.pos.y + _drag_delta.y;
 				nx = x;
 				ny = y;
 
@@ -1495,7 +1495,7 @@ public class Window extends WindowConstants implements Serializable
 					}
 				}
 
-				DrawPixelInfo _screen = Hal._screen;
+				DrawPixelInfo _screen = HAL._screen;
 
 				// Make sure the window doesn't leave the screen
 				// 13 is the height of the title bar
@@ -1546,8 +1546,8 @@ public class Window extends WindowConstants implements Serializable
 					break;
 				}
 
-				x = Hal._cursor.pos.x - _drag_delta.x;
-				y = Hal._cursor.pos.y - _drag_delta.y;
+				x = HAL._cursor.pos.x - _drag_delta.x;
+				y = HAL._cursor.pos.y - _drag_delta.y;
 
 				/* X and Y has to go by step.. calculate it.
 				 * The cast to int is necessary else x/y are implicitly casted to
@@ -1628,8 +1628,8 @@ public class Window extends WindowConstants implements Serializable
 		flags4 |= WF_DRAGGING;
 		_dragging_window = true;
 
-		_drag_delta.x = left - Hal._cursor.pos.x;
-		_drag_delta.y = top  - Hal._cursor.pos.y;
+		_drag_delta.x = left - HAL._cursor.pos.x;
+		_drag_delta.y = top  - HAL._cursor.pos.y;
 
 		BringWindowToFront();
 		DeleteWindowById(WC_DROPDOWN_MENU, 0);
@@ -1640,8 +1640,8 @@ public class Window extends WindowConstants implements Serializable
 		flags4 |= WF_SIZING;
 		_dragging_window = true;
 
-		_drag_delta.x = Hal._cursor.pos.x;
-		_drag_delta.y = Hal._cursor.pos.y;
+		_drag_delta.x = HAL._cursor.pos.x;
+		_drag_delta.y = HAL._cursor.pos.y;
 
 		BringWindowToFront();
 		DeleteWindowById(WC_DROPDOWN_MENU, 0);
@@ -1671,13 +1671,13 @@ public class Window extends WindowConstants implements Serializable
 
 				if (0 != (w.flags4 & WF_HSCROLL)) {
 					sb = w.hscroll;
-					i = Hal._cursor.pos.x - _cursorpos_drag_start.x;
+					i = HAL._cursor.pos.x - _cursorpos_drag_start.x;
 				} else if (0 != (w.flags4 & WF_SCROLL2)){
 					sb = w.vscroll2;
-					i = Hal._cursor.pos.y - _cursorpos_drag_start.y;
+					i = HAL._cursor.pos.y - _cursorpos_drag_start.y;
 				} else {
 					sb = w.vscroll;
-					i = Hal._cursor.pos.y - _cursorpos_drag_start.y;
+					i = HAL._cursor.pos.y - _cursorpos_drag_start.y;
 				}
 
 				// Find the item we want to move to and make sure it's inside bounds.
@@ -1701,7 +1701,7 @@ public class Window extends WindowConstants implements Serializable
 		ViewPort vp;
 		//int dx,dy, x, y, sub;
 
-		if (!Hal._cursor.isScrollingViewport()) return true;
+		if (!HAL._cursor.isScrollingViewport()) return true;
 
 		if (!_right_button_down) {
 			//stop_capt:;
@@ -1710,11 +1710,11 @@ public class Window extends WindowConstants implements Serializable
 			Hal._cursor.scrollRef = null;
 			_scrolling_viewport = false;
 			 */
-			Hal._cursor.stopViewportScrolling();
+			HAL._cursor.stopViewportScrolling();
 			return true;
 		}
 
-		w = FindWindowFromPt(Hal._cursor.pos.x, Hal._cursor.pos.y);
+		w = FindWindowFromPt(HAL._cursor.pos.x, HAL._cursor.pos.y);
 		if (w == null) //goto stop_capt;
 		{
 			//stop_capt:;
@@ -1723,7 +1723,7 @@ public class Window extends WindowConstants implements Serializable
 			Hal._cursor.scrollRef = null;
 			_scrolling_viewport = false;
 			 */
-			Hal._cursor.stopViewportScrolling();
+			HAL._cursor.stopViewportScrolling();
 			return true;
 		}
 
@@ -1736,17 +1736,17 @@ public class Window extends WindowConstants implements Serializable
 			dy = Hal._cursor.delta.y;
 		}*/
 
-		Point d = Hal._cursor.getViewportScrollStep();
+		Point d = HAL._cursor.getViewportScrollStep();
 
 		if (w.window_class != WC_SMALLMAP) {
-			vp = w.IsPtInWindowViewport(Hal._cursor.pos.x, Hal._cursor.pos.y);
+			vp = w.IsPtInWindowViewport(HAL._cursor.pos.x, HAL._cursor.pos.y);
 			if (vp == null)
 				//goto stop_capt;
 			{
 				//stop_capt:;
 				//Hal._cursor.fix_at = false;
 				//_scrolling_viewport = false;
-				Hal._cursor.stopViewportScrolling();
+				HAL._cursor.stopViewportScrolling();
 				return true;
 			}
 
@@ -2147,11 +2147,11 @@ public class Window extends WindowConstants implements Serializable
 		if(w == null) throw new InvalidParameterException();
 
 		switch (Global._patches.toolbar_pos) {
-		case 1:  w.left = (Hal._screen.width - w.width) >> 1; break;
-		case 2:  w.left = Hal._screen.width - w.width; break;
+		case 1:  w.left = (HAL._screen.width - w.width) >> 1; break;
+		case 2:  w.left = HAL._screen.width - w.width; break;
 		default: w.left = 0;
 		}
-		Gfx.SetDirtyBlocks(0, 0, Hal._screen.width, w.height); // invalidate the whole top part
+		Gfx.SetDirtyBlocks(0, 0, HAL._screen.width, w.height); // invalidate the whole top part
 		return w.left;
 	}
 
@@ -2340,7 +2340,7 @@ public class Window extends WindowConstants implements Serializable
 				_scrollbar_size = ma - mi - 23;
 				flags4 |= WF_SCROLL_MIDDLE;
 				_scrolling_scrollbar = true;
-				_cursorpos_drag_start = new Point( Hal._cursor.pos );
+				_cursorpos_drag_start = new Point( HAL._cursor.pos );
 			}
 		}
 
@@ -2350,7 +2350,7 @@ public class Window extends WindowConstants implements Serializable
 
 	private void drawOneWidget(Widget wi, int cur_click, int cur_disabled, int cur_hidden)
 	{
-		final DrawPixelInfo dpi = Hal._cur_dpi;
+		final DrawPixelInfo dpi = HAL._cur_dpi;
 		Rect r = new Rect();
 
 		boolean clicked = 0 != (cur_click & 1);
@@ -2669,7 +2669,10 @@ public class Window extends WindowConstants implements Serializable
 		} 
 
 		if (0 != (flags4 & WF_WHITE_BORDER_MASK)) {
-			//DrawFrameRect(w.left, w.top, w.left + w.width-1, w.top+w.height-1, 0xF, 0x10);
+			if (window_class == WC_SELECT_GAME) {
+				System.out.println(height);
+			}
+			//DrawFrameRect(left, top, left + width-1, top+ height-1, 0xF, 0x10);
 			Gfx.DrawFrameRect(0, 0, width-1, height-1, 0xF, FR_BORDERONLY);
 		}
 
@@ -2684,10 +2687,10 @@ public class Window extends WindowConstants implements Serializable
 		int item, counter;
 		int y;
 
-		if (w.GetWidgetFromPos(Hal._cursor.pos.x - w.left, Hal._cursor.pos.y - w.top) < 0)
+		if (w.GetWidgetFromPos(HAL._cursor.pos.x - w.left, HAL._cursor.pos.y - w.top) < 0)
 			return -1;
 
-		y = Hal._cursor.pos.y - w.top - 2;
+		y = HAL._cursor.pos.y - w.top - 2;
 
 		if (y < 0)
 			return - 1;
@@ -3033,8 +3036,8 @@ public class Window extends WindowConstants implements Serializable
 		if (!HandleViewportScroll())     			return;
 		HandleMouseOver();
 
-		x = Hal._cursor.pos.x;
-		y = Hal._cursor.pos.y;
+		x = HAL._cursor.pos.x;
+		y = HAL._cursor.pos.y;
 
 
 		if (click == 0 && mousewheel == 0) 
@@ -3097,11 +3100,11 @@ public class Window extends WindowConstants implements Serializable
 			}
 
 			if (click == 1) {
-				Global.DEBUG_misc( 2, "cursor: 0x%X (%d)", Hal._cursor.sprite.id, Hal._cursor.sprite.id);
+				Global.DEBUG_misc( 2, "cursor: 0x%X (%d)", HAL._cursor.sprite.id, HAL._cursor.sprite.id);
 				if (ViewPort._thd.place_mode != 0 &&
 						// query button and place sign button work in pause mode
-						Hal._cursor.sprite.id != Sprite.SPR_CURSOR_QUERY &&
-						Hal._cursor.sprite.id != Sprite.SPR_CURSOR_SIGN &&
+						HAL._cursor.sprite.id != Sprite.SPR_CURSOR_QUERY &&
+						HAL._cursor.sprite.id != Sprite.SPR_CURSOR_SIGN &&
 						Global._pause != 0 &&
 						!Global._cheats.build_in_pause.value) {
 					return;
@@ -3121,7 +3124,7 @@ public class Window extends WindowConstants implements Serializable
 					//Hal._cursor.fix_at = true;
 					Hal._cursor.scrollRef = new Point( Hal._cursor.pos );
 					 */
-					Hal._cursor.startViewportScrolling();
+					HAL._cursor.startViewportScrolling();
 				}
 			}
 		} else {
@@ -3172,9 +3175,9 @@ public class Window extends WindowConstants implements Serializable
 		if( !_right_button_down ) _right_button_clicked = false;
 
 		mousewheel = 0;
-		if (0 != Hal._cursor.wheel) {
-			mousewheel = Hal._cursor.wheel;
-			Hal._cursor.wheel = 0;
+		if (0 != HAL._cursor.wheel) {
+			mousewheel = HAL._cursor.wheel;
+			HAL._cursor.wheel = 0;
 		}
 
 		MouseLoop(click, mousewheel);

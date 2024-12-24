@@ -60,7 +60,7 @@ public class Main {
 	void  ShowInfoF( String str, Object ... args)
 	{
 		String buf = String.format(str, args);
-		Hal.ShowInfo(buf);
+		HAL.ShowInfo(buf);
 	}
 
 
@@ -86,7 +86,7 @@ public class Main {
 						"  -c config_file      = Use 'config_file' instead of 'openttd.cfg'\n"
 						;
 
-		Hal.ShowInfo(help);
+		HAL.ShowInfo(help);
 	}
 
 
@@ -137,7 +137,7 @@ public class Main {
 
 		Global._pause = 0;
 		Global.gs._local_player = PlayerID.getNone();
-		Hal.MarkWholeScreenDirty();
+		HAL.MarkWholeScreenDirty();
 
 		// Play main theme
 		// TODO if (_music_driver.is_song_playing()) ResetMusic();
@@ -437,7 +437,7 @@ public class Main {
 			Cmd.DoCommandP(null, (Global._patches.autorenew.get() ? (1 << 15) : 0 ) | (Global._patches.autorenew_months << 16) | 4, (int)Global._patches.autorenew_money, null, Cmd.CMD_REPLACE_VEHICLE);
 		}
 
-		Hal.MarkWholeScreenDirty();
+		HAL.MarkWholeScreenDirty();
 	}
 
 	static void MakeNewEditorWorld()
@@ -461,7 +461,7 @@ public class Main {
 		GenerateWorld.doGenerateWorld(1, 1 << Global._patches.map_x, 1 << Global._patches.map_y);
 
 		Global.gs._local_player = PlayerID.getNone();
-		Hal.MarkWholeScreenDirty();
+		HAL.MarkWholeScreenDirty();
 	}
 
 
@@ -512,7 +512,7 @@ public class Main {
 		// TODO arg 2 long truncated
 		Cmd.DoCommandP(null, (Global._patches.autorenew.get() ? 1 << 15 : 0 ) | (Global._patches.autorenew_months << 16) | 4, (int)Global._patches.autorenew_money, null, Cmd.CMD_REPLACE_VEHICLE);
 
-		Hal.MarkWholeScreenDirty();
+		HAL.MarkWholeScreenDirty();
 		/* */
 	}
 
@@ -647,7 +647,7 @@ public class Main {
 			GenerateWorld.doGenerateWorld(2, 1<<Global._patches.map_x, 1<<Global._patches.map_y);
 			// XXX: set date
 			Global.gs._local_player = PlayerID.getNone();
-			Hal.MarkWholeScreenDirty();
+			HAL.MarkWholeScreenDirty();
 			break;
 
 		default:
@@ -828,14 +828,14 @@ public class Main {
 		}
 
 		//IncreaseSpriteLRU();
-		Hal.InteractiveRandom();
+		HAL.InteractiveRandom();
 
 		Window.updateScrollerTimeout();
 
 
 		Global._caret_timer += 3;
 		Global._timer_counter += 8;
-		Hal.CursorTick();
+		HAL.CursorTick();
 
 		// Check for UDP stuff
 		NetUDP.NetworkUDPGameLoop();
@@ -916,7 +916,7 @@ public class Main {
 			Player.DoStartupNewPlayer(false);
 
 		Gui.DoZoomInOutWindow(Gui.ZOOM_NONE, Window.getMain()); // update button status
-		Hal.MarkWholeScreenDirty();
+		HAL.MarkWholeScreenDirty();
 
 		for( Player pp: Global.gs._players )
 			pp.avail_railtypes = Player.GetPlayerRailtypes(pp.index);

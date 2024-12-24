@@ -1,6 +1,6 @@
 package game.xui;
 
-import game.Hal;
+import game.HAL;
 import game.Sprite;
 import game.ids.CursorID;
 import game.struct.Point;
@@ -146,21 +146,21 @@ public class CursorVars
 		if (scrollingViewport)
 			return;
 		scrollingViewport = true;
-		Hal._cursor.scrollRef = new Point( Hal._cursor.pos );
+		HAL._cursor.scrollRef = new Point( HAL._cursor.pos );
 	}
 
 	public void stopViewportScrolling() {
 		//Hal._cursor.fix_at = false;
-		Hal._cursor.scrollRef = null;
+		HAL._cursor.scrollRef = null;
 		scrollingViewport = false;
 	}
 
 	public boolean isScrollingViewport() { return scrollingViewport; }
 
 	public Point getViewportScrollStep() {
-		int dx = -(Hal._cursor.pos.x - Hal._cursor.scrollRef.x);
-		int dy = -(Hal._cursor.pos.y - Hal._cursor.scrollRef.y);
-		Hal._cursor.scrollRef = new Point(Hal._cursor.pos);
+		int dx = -(HAL._cursor.pos.x - HAL._cursor.scrollRef.x);
+		int dy = -(HAL._cursor.pos.y - HAL._cursor.scrollRef.y);
+		HAL._cursor.scrollRef = new Point(HAL._cursor.pos);
 
 		return new Point( dx, dy );
 	}

@@ -2671,7 +2671,7 @@ public class Station extends StationTables implements IPoolItem
 
 					// if rating is <= 64 and more than 200 items waiting, remove some random amount of goods from the station
 					if (rating <= 64 && waiting >= 200) {
-						int dec = Hal.Random() & 0x1F;
+						int dec = HAL.Random() & 0x1F;
 						if (waiting < 400) dec &= 7;
 						waiting -= dec + 1;
 						waiting_changed = true;
@@ -2679,7 +2679,7 @@ public class Station extends StationTables implements IPoolItem
 
 					// if rating is <= 127 and there are any items waiting, maybe remove some goods.
 					if (rating <= 127 && waiting != 0) {
-						int r = Hal.Random();
+						int r = HAL.Random();
 						if ( rating <= (r & 0x7F) ) {
 							waiting = Math.max(waiting - ((r >> 8)&3) - 1, 0);
 							waiting_changed = true;
@@ -2789,7 +2789,7 @@ public class Station extends StationTables implements IPoolItem
 			st.UpdateStationVirtCoord();
 			Global.DeleteName(old_str);
 			StationGui.requestSortStations(st.owner.id); // rename a station
-			Hal.MarkWholeScreenDirty();
+			HAL.MarkWholeScreenDirty();
 		} else {
 			Global.DeleteName(str);
 		}

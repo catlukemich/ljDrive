@@ -26,7 +26,7 @@ import java.util.function.Consumer;
 import game.Cmd;
 import game.GameOptions;
 import game.Global;
-import game.Hal;
+import game.HAL;
 import game.Main;
 import game.Player;
 import game.Str;
@@ -1515,7 +1515,7 @@ public class Net implements NetDefs, NetClient
 		//char hex_output[16*2 + 1];
 		//int di;
 
-		String coding_string = String.format("%d%s", (int)Hal.Random(), "OpenTTD Unique ID");
+		String coding_string = String.format("%d%s", (int)HAL.Random(), "OpenTTD Unique ID");
 
 		MessageDigest md = MessageDigest.getInstance("MD5");
 		byte[] digest = md.digest(coding_string.getBytes());
@@ -1867,7 +1867,7 @@ public class Net implements NetDefs, NetClient
 	{
 		//NetworkClientState cs;
 		final NetworkClientInfo ci = NetworkFindClientInfoFromIndex(from_index);
-		final int playerColor = Hal.GetDrawStringPlayerColor(PlayerID.get(ci.client_playas-1));
+		final int playerColor = HAL.GetDrawStringPlayerColor(PlayerID.get(ci.client_playas-1));
 
 		NetworkClientInfo ci_own; //, ci_to;
 
@@ -1953,7 +1953,7 @@ public class Net implements NetDefs, NetClient
 				if (from_index == NETWORK_SERVER_INDEX) {
 					//char name[NETWORK_NAME_LENGTH];
 					String name = Strings.GetString(Player.GetPlayer(ci_to.client_playas-1).getName_1());
-					final int playerColorOwn = Hal.GetDrawStringPlayerColor(PlayerID.get(ci_own.client_playas-1));
+					final int playerColorOwn = HAL.GetDrawStringPlayerColor(PlayerID.get(ci_own.client_playas-1));
 					NetworkTextMessage(action, playerColorOwn, true, name, "%s", msg);
 				} else {
 					FOR_ALL_CLIENTS(cs -> {

@@ -3,7 +3,7 @@ package game.ai;
 import game.Cmd;
 import game.GameOptions;
 import game.Global;
-import game.Hal;
+import game.HAL;
 import game.Player;
 import game.TileIndex;
 import game.enums.Owner;
@@ -78,9 +78,9 @@ public class Ai {
 		 *   but we pick InteractiveRandomRange if we are a network_server or network-client.
 		 */
 		if (Global._networking)
-			return Hal.InteractiveRandomRange(max);
+			return HAL.InteractiveRandomRange(max);
 		else
-			return Hal.RandomRange(max);
+			return HAL.RandomRange(max);
 	}
 
 	/**
@@ -92,9 +92,9 @@ public class Ai {
 		 *   but we pick InteractiveRandomRange if we are a network_server or network-client.
 		 */
 		if (Global._networking)
-			return Hal.InteractiveRandom();
+			return HAL.InteractiveRandom();
 		else
-			return Hal.Random();
+			return HAL.Random();
 	}
 	
 

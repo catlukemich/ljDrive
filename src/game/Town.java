@@ -348,7 +348,7 @@ public class Town implements IPoolItem, Serializable
 			tile.getMap().m1 |= 0x80;
 
 			do {
-				i = (Hal.Random() & 7) - 1;
+				i = (HAL.Random() & 7) - 1;
 			} while (i < 0 || i == 1 || i * 6 == old);
 
 			tile.getMap().m5 = BitOps.RETSB(tile.getMap().m5, 0, 6, i);
@@ -469,7 +469,7 @@ public class Town implements IPoolItem, Serializable
 
 		t = GetTown(tile.getMap().m2);
 
-		r = Hal.Random();
+		r = HAL.Random();
 
 		if (BitOps.GB(r, 0, 8) < TownTables._housetype_population[house]) {
 			int amt = BitOps.GB(r, 0, 8) / 8 + 1;
@@ -710,7 +710,7 @@ public class Town implements IPoolItem, Serializable
 			// If the tile is not a slope in the right direction, then
 			// maybe terraform some.
 			if( ( (k = (dir&1)) != 0 ?0xC:0x9 ) != slope && (k^0xF) != slope) {
-				int r = Hal.Random();
+				int r = HAL.Random();
 
 				if (BitOps.CHANCE16I(1, 8, r) && !Global._generating_world) {
 					int res;
@@ -799,7 +799,7 @@ public class Town implements IPoolItem, Serializable
 			b = block ^ 2;
 			if (BitOps.CHANCE16(1, 4)) {
 				do {
-					a = BitOps.GB(Hal.Random(), 0, 2);
+					a = BitOps.GB(HAL.Random(), 0, 2);
 				} while(a == b);
 			}
 
@@ -838,7 +838,7 @@ public class Town implements IPoolItem, Serializable
 
 			// Possibly extend the road in a direction.
 			// Randomize a direction and if it has a road, bail out.
-			i = BitOps.GB(Hal.Random(), 0, 2);
+			i = BitOps.GB(HAL.Random(), 0, 2);
 			if (BitOps.HASBIT(mask, i)) return;
 
 			// This is the tile we will reach if we extend to this direction.
@@ -922,7 +922,7 @@ public class Town implements IPoolItem, Serializable
 		{
 			int bridge_len = TunnelBridgeCmd.GetBridgeLength(tile, tmptile);
 			do {
-				int bridge_type = Hal.RandomRange(Bridge.MAX_BRIDGES - 1);
+				int bridge_type = HAL.RandomRange(Bridge.MAX_BRIDGES - 1);
 				if (TunnelBridgeCmd.CheckBridge_Stuff(bridge_type, bridge_len)) {
 					if (!Cmd.CmdFailed(Cmd.DoCommandByTile(tile, tmptile.tile, 0x8000 + bridge_type, Cmd.DC_EXEC | Cmd.DC_AUTO, Cmd.CMD_BUILD_BRIDGE)))
 						_grow_town_result = -1;
@@ -973,7 +973,7 @@ public class Town implements IPoolItem, Serializable
 
 			// Select a random bit from the blockmask, walk a step
 			// and continue the search from there.
-			do block = Hal.Random() & 3; while (!BitOps.HASBIT(mask,block));
+			do block = HAL.Random() & 3; while (!BitOps.HASBIT(mask,block));
 			tile.madd(TileIndex.ToTileIndexDiff(_roadblock_tileadd[block]));
 
 			if (tile.IsTileType( TileTypes.MP_STREET)) {
@@ -999,7 +999,7 @@ public class Town implements IPoolItem, Serializable
 	// is somewhat higher than a curved.
 	static int GenRandomRoadBits()
 	{
-		int r = Hal.Random();
+		int r = HAL.Random();
 		int a = BitOps.GB(r, 0, 2);
 		int b = BitOps.GB(r, 8, 2);
 		if (a == b) b ^= 2;
@@ -1143,7 +1143,7 @@ public class Town implements IPoolItem, Serializable
 
 		for(;;) {
 			//restart:
-			r = Hal.Random();
+			r = HAL.Random();
 
 			Global.SetDParam(0, r);
 			buf1 = Strings.GetString(townnametype);
@@ -1234,7 +1234,7 @@ public class Town implements IPoolItem, Serializable
 		t.UpdateTownVirtCoord();
 		TownGui._town_sort_dirty = true;
 
-		x = (Hal.Random() & 0xF) + 8;
+		x = (HAL.Random() & 0xF) + 8;
 		if (Global._game_mode == GameModes.GM_EDITOR)
 			x = Global._new_town_size * 16 + 3;
 
@@ -1334,7 +1334,7 @@ public class Town implements IPoolItem, Serializable
 
 		do {
 			// Generate a tile index not too close from the edge
-			tile = Hal.RandomTile();
+			tile = HAL.RandomTile();
 			if (Map.DistanceFromEdge(tile) < 5) // TODO [dz] was 20
 				continue;
 
@@ -1367,7 +1367,7 @@ public class Town implements IPoolItem, Serializable
 	public static boolean GenerateTowns()
 	{
 		int num = 0;
-		int n = Map.ScaleByMapSize(_num_initial_towns[GameOptions._opt.diff.number_towns] + (Hal.Random() & 7));
+		int n = Map.ScaleByMapSize(_num_initial_towns[GameOptions._opt.diff.number_towns] + (HAL.Random() & 7));
 
 		do {
 			if (CreateRandomTown(40) != null) 	// TODO was 20 -- try 20 times for the first loop
@@ -1502,7 +1502,7 @@ public class Town implements IPoolItem, Serializable
 			}
 
 			for(;;) {
-				house = houses[Hal.RandomRange(num)];
+				house = houses[HAL.RandomRange(num)];
 
 				if (Global.get_cur_year() < TownTables._housetype_years[house].min || Global.get_cur_year() > TownTables._housetype_years[house].max)
 					continue;
@@ -1569,7 +1569,7 @@ public class Town implements IPoolItem, Serializable
 			m3lo = 0;
 			m5 = 0;
 			if (Global._generating_world) {
-				int r = Hal.Random();
+				int r = HAL.Random();
 
 				// Value for map3lo
 				m3lo = 0xC0;
@@ -1745,7 +1745,7 @@ public class Town implements IPoolItem, Serializable
 			t.UpdateTownVirtCoord();
 			TownGui._town_sort_dirty = true;
 			Station.UpdateAllStationVirtCoord();
-			Hal.MarkWholeScreenDirty();
+			HAL.MarkWholeScreenDirty();
 		} else {
 			Global.DeleteName(str);
 		}
@@ -1793,7 +1793,7 @@ public class Town implements IPoolItem, Serializable
 		xy = null;
 		Global.DeleteName(townnametype);
 
-		Hal.MarkWholeScreenDirty();
+		HAL.MarkWholeScreenDirty();
 	}
 
 	// Called from GUI
@@ -1804,7 +1804,7 @@ public class Town implements IPoolItem, Serializable
 		Global._generating_world = true;
 
 		/* The more houses, the faster we grow */
-		amount = Hal.RandomRange(num_houses / 10) + 3;
+		amount = HAL.RandomRange(num_houses / 10) + 3;
 		num_houses += amount;
 		UpdateTownRadius();
 
@@ -1929,7 +1929,7 @@ public class Town implements IPoolItem, Serializable
 
 	static void TownActionBribe(Town t, int action)
 	{
-		if (0==Hal.RandomRange(15)) 
+		if (0==HAL.RandomRange(15)) 
 		{
 			// set as unwanted for 6 months
 			t.unwanted[PlayerID.getCurrent().id] = 6;
@@ -2290,7 +2290,7 @@ public class Town implements IPoolItem, Serializable
 
 	public static Town getRandomTown() 
 	{		
-		return GetTown(Hal.RandomRange(Global.gs._towns.size()));
+		return GetTown(HAL.RandomRange(Global.gs._towns.size()));
 		//return GetTown(Hal.RandomRange(_total_towns));
 	}
 

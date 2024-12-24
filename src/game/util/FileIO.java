@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
+import java.nio.file.NotDirectoryException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -552,6 +553,8 @@ public class FileIO
 				files.add( name );
 
 			}
+		} catch (NotDirectoryException e) {
+			throw(new RuntimeException(e));
 		} catch (IOException x) {
 			//System.err.println(x);
 			Global.error(x);

@@ -1,6 +1,6 @@
 package game.xui;
 
-import game.Hal;
+import game.HAL;
 import game.util.Pixel;
 
 public class DrawPixelInfo 
@@ -42,7 +42,7 @@ public class DrawPixelInfo
 	{
 		int t;
 
-		if (o == null) o = Hal._cur_dpi;
+		if (o == null) o = HAL._cur_dpi;
 
 		n.zoom = 0;
 

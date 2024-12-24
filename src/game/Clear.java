@@ -782,9 +782,9 @@ public class Clear extends ClearTables {
 			if ((m5 & 3) == 3) return; // full frass/full show
 
 			if (Global._game_mode != GameModes.GM_EDITOR) {
-				if( Hal.RandomRange(20) >= 2) // add some randomness to growth rate
+				if( HAL.RandomRange(20) >= 2) // add some randomness to growth rate
 					m5 += 0x20;
-				if( Hal.RandomRange(20) < 2) // add some randomness to growth rate
+				if( HAL.RandomRange(20) < 2) // add some randomness to growth rate
 					m5 += 0x20;
 				m5 &= 0xFF;
 				if (m5 >= 0x20) {
@@ -794,7 +794,7 @@ public class Clear extends ClearTables {
 				}
 				/* did overflow, so continue */
 			} else {
-				m5 =  ((BitOps.GB(Hal.Random(), 0, 8) > 21) ? 2 : 6);
+				m5 =  ((BitOps.GB(HAL.Random(), 0, 8) > 21) ? 2 : 6);
 			}
 			m5++;
 		} else if (Global._game_mode != GameModes.GM_EDITOR) {
@@ -824,7 +824,7 @@ public class Clear extends ClearTables {
 		TileIndex tile;
 
 		/* add hills */
-		i = Map.ScaleByMapSize(BitOps.GB(Hal.Random(), 0, 10) + 0x400);
+		i = Map.ScaleByMapSize(BitOps.GB(HAL.Random(), 0, 10) + 0x400);
 		do {
 			tile = TileIndex.RandomTile();
 			if (tile.IsTileType( TileTypes.MP_CLEAR)) 
@@ -832,9 +832,9 @@ public class Clear extends ClearTables {
 		} while (--i > 0);
 
 		/* add grey squares */
-		i = Map.ScaleByMapSize(BitOps.GB(Hal.Random(), 0, 7) + 0x80);
+		i = Map.ScaleByMapSize(BitOps.GB(HAL.Random(), 0, 7) + 0x80);
 		do {
-			int r = Hal.Random();
+			int r = HAL.Random();
 			tile = TileIndex.RandomTileSeed(r);
 			if (tile.IsTileType( TileTypes.MP_CLEAR)) {
 				int j = BitOps.GB(r, 16, 4) + 5;
@@ -850,7 +850,7 @@ public class Clear extends ClearTables {
 							getOut = true;
 							break;
 						}
-						tile_new = tile.iadd( TileIndex.TileOffsByDir(BitOps.GB(Hal.Random(), 0, 2)) );
+						tile_new = tile.iadd( TileIndex.TileOffsByDir(BitOps.GB(HAL.Random(), 0, 2)) );
 					} while (!tile.IsTileType( TileTypes.MP_CLEAR));
 					
 					if(getOut) break;

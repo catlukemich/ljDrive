@@ -2281,7 +2281,7 @@ public class TrainCmd extends TrainTables
 			}
 
 			// if we reach this position, there's two paths of equal value so far. pick one randomly. 
-			int r = BitOps.GB(Hal.Random(), 0, 8);
+			int r = BitOps.GB(HAL.Random(), 0, 8);
 			if (_pick_track_table[i] == (v.direction & 3)) r += 80;
 			if (_pick_track_table[best_track] == (v.direction & 3)) r -= 80;
 			if (r <= 127) return false; //goto bad;
@@ -3446,7 +3446,7 @@ public class TrainCmd extends TrainTables
 		do {
 			//I need to buffer the train direction
 			if (0==(v.rail.track & 0x40))
-				v.direction = (v.direction + _random_dir_change[BitOps.GB(Hal.Random(), 0, 2)]) & 7;
+				v.direction = (v.direction + _random_dir_change[BitOps.GB(HAL.Random(), 0, 2)]) & 7;
 			if (!v.isHidden()) {
 				v.BeginVehicleMove();
 				UpdateTrainDeltaXY(v, v.direction);
@@ -3469,14 +3469,14 @@ public class TrainCmd extends TrainTables
 		//if (state <= 200 && BitOps.CHANCE16R(1, 7, r)) 
 		if (state <= 200 && BitOps.CHANCE16(1, 7)) 
 		{
-			r = Hal.Random();
+			r = HAL.Random();
 
 			index = (r * 10 >> 16);
 
 			u = v;
 			do {
 				if (--index < 0) {
-					r = Hal.Random();
+					r = HAL.Random();
 
 					u.CreateEffectVehicleRel(
 							BitOps.GB(r,  8, 3) + 2,

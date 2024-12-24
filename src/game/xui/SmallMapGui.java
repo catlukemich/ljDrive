@@ -5,7 +5,7 @@ import java.util.function.Function;
 
 import game.GameOptions;
 import game.Global;
-import game.Hal;
+import game.HAL;
 import game.Landscape;
 import game.Player;
 import game.Sprite;
@@ -76,8 +76,8 @@ public class SmallMapGui extends SmallMapGuiTables
 	{
 		Pixel dst = new Pixel(idst);
 		//Pixel dst_ptr_end = Hal._screen.dst_ptr + Hal._screen.width * Hal._screen.height - Hal._screen.width;
-		Pixel dst_ptr_end = new Pixel( Hal._screen.dst_ptr );
-		dst_ptr_end.shift(Hal._screen.width * Hal._screen.height - Hal._screen.width); 
+		Pixel dst_ptr_end = new Pixel( HAL._screen.dst_ptr );
+		dst_ptr_end.shift(HAL._screen.width * HAL._screen.height - HAL._screen.width); 
 
 		do {
 			// check if the tile (xc,yc) is within the map range
@@ -85,7 +85,7 @@ public class SmallMapGui extends SmallMapGuiTables
 			{
 				// check if the dst pointer points to a pixel inside the screen buffer
 				//if (dst > Hal._screen.dst_ptr && dst < dst_ptr_end)
-				if (dst.inside( Hal._screen.dst_ptr, dst_ptr_end) )
+				if (dst.inside( HAL._screen.dst_ptr, dst_ptr_end) )
 					dst.WRITE_PIXELS_OR(proc.apply(TileIndex.TileXY(xc, yc)) & mask);
 			}
 			// switch to next tile in the column
@@ -306,8 +306,8 @@ public class SmallMapGui extends SmallMapGuiTables
 
 
 
-		old_dpi = Hal._cur_dpi;
-		Hal._cur_dpi = dpi;
+		old_dpi = HAL._cur_dpi;
+		HAL._cur_dpi = dpi;
 
 		/* clear it */
 		Gfx.GfxFillRect(dpi.left, dpi.top, dpi.left + dpi.width - 1, dpi.top + dpi.height - 1, 0);
@@ -463,7 +463,7 @@ public class SmallMapGui extends SmallMapGuiTables
 			DrawHorizMapIndicator(x1, y1, x2, y1);
 			DrawHorizMapIndicator(x1, y2, x2, y2);
 		}
-		Hal._cur_dpi = old_dpi;
+		HAL._cur_dpi = old_dpi;
 	}
 
 	private static void small_map_draw_helper(int x, int y, DrawPixelInfo dpi, Pixel ptr, int tile_x, int tile_y, int type)
@@ -578,8 +578,8 @@ public class SmallMapGui extends SmallMapGuiTables
 				w2 = Window.getMain();
 
 				pt = Point.RemapCoords(w.as_smallmap_d().scroll_x, w.as_smallmap_d().scroll_y, 0);
-				w2.as_vp_d().scrollpos_x = pt.x + ((Hal._cursor.pos.x - w.left + 2) << 4) - (w2.getViewport().virtual_width >> 1);
-				w2.as_vp_d().scrollpos_y = pt.y + ((Hal._cursor.pos.y - w.top - 16) << 4) - (w2.getViewport().virtual_height >> 1);
+				w2.as_vp_d().scrollpos_x = pt.x + ((HAL._cursor.pos.x - w.left + 2) << 4) - (w2.getViewport().virtual_width >> 1);
+				w2.as_vp_d().scrollpos_y = pt.y + ((HAL._cursor.pos.y - w.top - 16) << 4) - (w2.getViewport().virtual_height >> 1);
 			} break;
 
 			case 5: /* Show land contours */
@@ -612,7 +612,7 @@ public class SmallMapGui extends SmallMapGuiTables
 				Window._scrolling_viewport = true;
 				//Hal._cursor.delta.x = 0;				Hal._cursor.delta.y = 0;
 				Hal._cursor.scrollRef = new Point( Hal._cursor.pos ); */
-				Hal._cursor.startViewportScrolling();
+				HAL._cursor.startViewportScrolling();
 
 			}
 			break;

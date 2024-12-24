@@ -6,7 +6,7 @@ import game.Cmd;
 import game.Economy;
 import game.GameOptions;
 import game.Global;
-import game.Hal;
+import game.HAL;
 import game.Player;
 import game.Sprite;
 import game.Str;
@@ -352,7 +352,7 @@ public class PlayerGui
 				w.SetWindowDirty();
 				break;
 			case 7:
-				w.as_facesel_d().face = (w.as_facesel_d().gender << 31) + BitOps.GB(Hal.InteractiveRandom(), 0, 31);
+				w.as_facesel_d().face = (w.as_facesel_d().gender << 31) + BitOps.GB(HAL.InteractiveRandom(), 0, 31);
 				w.SetWindowDirty();
 				break;
 			}
@@ -790,16 +790,16 @@ public class PlayerGui
 	{
 		int i;
 		// resize window to "full-screen"
-		w.width = Hal._screen.width;
-		w.height = Hal._screen.height;
+		w.width = HAL._screen.width;
+		w.height = HAL._screen.height;
 		w.widget.get(0).right = w.width - 1;
 		w.widget.get(0).bottom = w.height - 1;
 
 		w.DrawWindowWidgets();
 
 		/* Center Highscore/Endscreen background */
-		x[0] = Math.max(0, (Hal._screen.width  / 2) - (640 / 2));
-		y[0] = Math.max(0, (Hal._screen.height / 2) - (480 / 2));
+		x[0] = Math.max(0, (HAL._screen.width  / 2) - (640 / 2));
+		y[0] = Math.max(0, (HAL._screen.height / 2) - (480 / 2));
 		for (i = 0; i < 10; i++) // the image is split into 10 50px high parts
 			Gfx.DrawSprite(w.as_highscore_d().background_img + i, x[0], y[0] + (i * 50));
 	}
@@ -943,7 +943,7 @@ public class PlayerGui
 				w = Window.AllocateWindowDesc(_highscore_desc);
 
 				if (w != null) {
-					Hal.MarkWholeScreenDirty();
+					HAL.MarkWholeScreenDirty();
 					w.window_number = difficulty; // show highscore chart for difficulty...
 					w.as_highscore_d().background_img = Sprite.SPR_HIGHSCORE_CHART_BEGIN; // which background to show
 					w.as_highscore_d().rank = ranking;
@@ -966,7 +966,7 @@ public class PlayerGui
 				w = Window.AllocateWindowDesc(_endgame_desc);
 
 				if (w != null) {
-					Hal.MarkWholeScreenDirty();
+					HAL.MarkWholeScreenDirty();
 
 					w.as_highscore_d().background_img = Sprite.SPR_TYCOON_IMG1_BEGIN;
 

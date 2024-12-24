@@ -9,7 +9,7 @@ import java.util.Iterator;
 import game.AcceptedCargo;
 import game.Cmd;
 import game.Global;
-import game.Hal;
+import game.HAL;
 import game.Main;
 import game.Player;
 import game.SaveLoad;
@@ -1083,7 +1083,7 @@ public interface NetServer extends NetTools, NetDefs
 				ci = Net.NetworkFindClientInfoFromIndex(from_index);
 				/* Display the text locally, and that is it */
 				if (ci != null)
-					Net.NetworkTextMessage(action, Hal.GetDrawStringPlayerColor(ci.client_playas-1), false, ci.client_name, "%s", msg);
+					Net.NetworkTextMessage(action, HAL.GetDrawStringPlayerColor(ci.client_playas-1), false, ci.client_name, "%s", msg);
 			} else {
 				/* Else find the client to send the message to */
 				//Net.FOR_ALL_CLIENTS(cs -> 
@@ -1102,7 +1102,7 @@ public interface NetServer extends NetTools, NetDefs
 					ci = Net.NetworkFindClientInfoFromIndex(from_index);
 					ci_to = Net.NetworkFindClientInfoFromIndex(dest);
 					if (ci != null && ci_to != null)
-						Net.NetworkTextMessage(action, Hal.GetDrawStringPlayerColor(ci.client_playas-1), true, ci_to.client_name, "%s", msg);
+						Net.NetworkTextMessage(action, HAL.GetDrawStringPlayerColor(ci.client_playas-1), true, ci_to.client_name, "%s", msg);
 				} else {
 					//FOR_ALL_CLIENTS(cs) 
 					for( NetworkClientState cs : Net._clients )
@@ -1136,7 +1136,7 @@ public interface NetServer extends NetTools, NetDefs
 			ci = Net.NetworkFindClientInfoFromIndex(from_index);
 			ci_own = Net.NetworkFindClientInfoFromIndex(NETWORK_SERVER_INDEX);
 			if (ci != null && ci_own != null && ci_own.client_playas == dest) {
-				Net.NetworkTextMessage(action, Hal.GetDrawStringPlayerColor(ci.client_playas-1), false, ci.client_name, "%s", msg);
+				Net.NetworkTextMessage(action, HAL.GetDrawStringPlayerColor(ci.client_playas-1), false, ci.client_name, "%s", msg);
 				if (from_index == NETWORK_SERVER_INDEX)
 					show_local = false;
 				ci_to = ci_own;
@@ -1149,7 +1149,7 @@ public interface NetServer extends NetTools, NetDefs
 			if (ci != null && show_local) {
 				if (from_index == NETWORK_SERVER_INDEX) {
 					String name = Strings.GetString(Player.GetPlayer(ci_to.client_playas-1).getName_1());
-					Net.NetworkTextMessage(action, Hal.GetDrawStringPlayerColor(ci_own.client_playas-1), true, name, "%s", msg);
+					Net.NetworkTextMessage(action, HAL.GetDrawStringPlayerColor(ci_own.client_playas-1), true, name, "%s", msg);
 				} else {
 					//FOR_ALL_CLIENTS(cs)
 					for( NetworkClientState cs : Net._clients )
@@ -1174,7 +1174,7 @@ public interface NetServer extends NetTools, NetDefs
 
 			ci = Net.NetworkFindClientInfoFromIndex(from_index);
 			if (ci != null)
-				Net.NetworkTextMessage(action, Hal.GetDrawStringPlayerColor(ci.client_playas-1), false, ci.client_name, "%s", msg);
+				Net.NetworkTextMessage(action, HAL.GetDrawStringPlayerColor(ci.client_playas-1), false, ci.client_name, "%s", msg);
 			break;
 		}
 	}
@@ -1474,8 +1474,8 @@ public interface NetServer extends NetTools, NetDefs
 		if (Net._network_restart_game_date != 0 && Global.get_cur_year() + Global.MAX_YEAR_BEGIN_REAL >= Net._network_restart_game_date) {
 			Global.DEBUG_net( 0, "Auto-restarting map. Year %d reached.", Global.get_cur_year() + Global.MAX_YEAR_BEGIN_REAL);
 
-			Global._random_seeds[0][0] = Hal.Random();
-			Global._random_seeds[0][1] = Hal.InteractiveRandom();
+			Global._random_seeds[0][0] = HAL.Random();
+			Global._random_seeds[0][1] = HAL.InteractiveRandom();
 
 			Main.SwitchMode(SwitchModes.SM_NEWGAME);
 		}
